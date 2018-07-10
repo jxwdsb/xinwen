@@ -1,7 +1,7 @@
 #!/bin/bash
 #¨Docker 快速搭建网站环境¨
-#¨v: 0.0.1¨
-#¨By: xinwen¨
+#¨v: 0.0.1¨ 
+#¨By: xinwen¨ 
 echo ¨docker: mymariadb php-fpm nginx phpmyadmin mysql¨
 read -t 30 -n 1 -p "开始修复吗?[y/n]:" start 
 if [[ $start == "y" ]]; then
@@ -16,6 +16,8 @@ if [[ $start == "y" ]]; then
 	docker kill $(docker ps -a -q) 
 	docker rm $(docker ps -a -q) 
 	cd /var 
+	apt-get install curl 
+	curl -sSL https://get.daocloud.io/daotools/set_mirror.sh | sh -s http://930e1f6b.m.daocloud.io
 	docker pull mariadb:10.3.8 
 	docker pull php:7.2.7-fpm 
 	docker pull nginx:1.15.1 
