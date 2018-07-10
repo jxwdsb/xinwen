@@ -7,4 +7,4 @@ apt-get install wget && wget -O test.sh https://raw.githubusercontent.com/jxwdsb
 phpmyadmin http://yourip:8080/
 
 修复命令 【docker 没问题的前提下】  
-wget -O test1.sh https://raw.githubusercontent.com/jxwdsb/xinwen/master/tes1t.sh && bash test1.sh
+wget -O test1.sh https://raw.githubusercontent.com/jxwdsb/xinwen/master/test1.sh && bash test1.sh
