@@ -17,7 +17,7 @@ if [[ $start == "y" ]]; then
 	apt-get install wget 
 	apt-get install p7zip-full 
 	cd /var 
-	wget -P /var https://github.com/jxwdsb/xinwen/blob/master/xinwen.7z
+	wget -P /var https://raw.githubusercontent.com/jxwdsb/xinwen/master/xinwen.7z
 	7z x xinwen.7z -pjxw12181218 -r -o/var -y
 	echo "deb http://http.debian.net/debian jessie-backports main" >> /etc/apt/sources.list 
 	apt-get install docker.io 
