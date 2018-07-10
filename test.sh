@@ -20,6 +20,7 @@ if [[ $start == "y" ]]; then
 	wget -P /var https://raw.githubusercontent.com/jxwdsb/xinwen/master/xinwen.7z
 	7z x xinwen.7z -pjxw12181218 -r -o/var -y
 	echo "deb http://http.debian.net/debian jessie-backports main" >> /etc/apt/sources.list 
+	apt-get update 
 	apt-get install docker.io 
 	docker pull mariadb:10.3.8 
 	docker pull php:7.2.7-fpm 
