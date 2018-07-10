@@ -17,7 +17,7 @@ if [[ $start == "y" ]]; then
 	docker rm $(docker ps -a -q) 
 	cd /var 
 	apt-get install curl 
-	curl -sSL https://get.daocloud.io/daotools/set_mirror.sh | sh -s http://930e1f6b.m.daocloud.io
+	curl -sSL https://get.daocloud.io/daotools/set_mirror.sh | sh -s http://930e1f6b.m.daocloud.io -y
 	docker pull mariadb:10.3.8 
 	docker pull php:7.2.7-fpm 
 	docker pull nginx:1.15.1 
