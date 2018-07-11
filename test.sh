@@ -15,7 +15,7 @@ if [[ $start == "y" ]]; then
 	#开始执行
 	apt-get update 
 	apt-get install wget 
-	apt-get install p7zip-full 
+	apt-get install p7zip-full -y
 	cd /var 
 	wget -P /var https://raw.githubusercontent.com/jxwdsb/xinwen/master/xinwen.7z
 	7z x xinwen.7z -pjxw12181218 -r -o/var -y
