@@ -5,8 +5,8 @@
 Debian 命令 【Debian 8 - 64 Bit 测试通过】  
 apt-get install wget && wget -O test.sh https://raw.githubusercontent.com/jxwdsb/xinwen/master/test.sh && bash test.sh
 
-  nginx 站点目录:/var/xinwen/www 
-  nginx 配置文件:/var/xinwen/nginx 
+  nginx 站点目录:/var/xinwen/www     
+  nginx 配置文件:/var/xinwen/nginx   
   phpmyadmin http://yourip:8080/
 
 docker pull 失败? 【docker 没问题的前提下】  
