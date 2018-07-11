@@ -23,7 +23,7 @@ apt-get install curl && curl -sSL https://get.daocloud.io/daotools/set_mirror.sh
 
 优雅一键SSR   
 ```
-wget -P /var/xinwen/ssr https://raw.githubusercontent.com/jxwdsb/xinwen/master/shadowsocks.json && docker pull 4kerccc/shadowsocksr && docker run --name ssrr -itd -p 8887:80 -v\ /var/xinwen/ssr/shadowsocks.json:/etc/shadowsocks.json 4kerccc/shadowsocksr
+wget -P /var/xinwen/ssr https://raw.githubusercontent.com/jxwdsb/xinwen/master/shadowsocks.json && docker pull 4kerccc/shadowsocksr && docker run --name ssrr -itd -p 8887:80 -v /var/xinwen/ssr/shadowsocks.json:/etc/shadowsocks.json 4kerccc/shadowsocksr
 ```
 
 服务器IP地址: youip   <br>
@@ -34,4 +34,5 @@ wget -P /var/xinwen/ssr https://raw.githubusercontent.com/jxwdsb/xinwen/master/s
 加密方法: chacha20    <br>
 配置文件 /etc/shadowsocks.json   <br>
 修改后请执行 /etc/init.d/shadowsocks restart   <br>
-用于重启shadowskcsR服务。
+用于重启shadowskcsR服务。<br><br>
+感谢百度的一对一指导。
