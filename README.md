@@ -26,7 +26,7 @@ apt-get install curl && curl -sSL https://get.daocloud.io/daotools/set_mirror.sh
 wget -P /var/xinwen/ssr https://raw.githubusercontent.com/jxwdsb/xinwen/master/shadowsocks.json && docker pull 4kerccc/shadowsocksr && docker run --name ssrr -itd -p 8887:80 -v /var/xinwen/ssr/shadowsocks.json:/etc/shadowsocks.json 4kerccc/shadowsocksr
 ```
 
-服务器IP地址: youip   <br>
+服务器IP地址: yourip   <br>
 远程端口: 8887   <br>
 密码: jxw12181218   <br>
 认证协议: auth_sha1_v4   <br>
