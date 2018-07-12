@@ -7,11 +7,11 @@ if [[ $start == "y" ]]; then
 	cd /var/xinwen/nginx 
 	for line1 in `cat certificate.crt`
 	do
-		#什么也不干
+		echo
 	done
 	for line2 in `cat ca_bundle.crt`
 	do
-		#什么也不干
+		echo
 	done
 	if [[ -e server.crt ]]; then
 		rm server.crt
