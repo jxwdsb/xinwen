@@ -20,7 +20,10 @@ apt-get install curl && curl -sSL https://get.daocloud.io/daotools/set_mirror.sh
  ```
  wget -O test1.sh https://raw.githubusercontent.com/jxwdsb/xinwen/master/test1.sh && bash test1.sh
  ```
-
+优雅一键Aria2 <br>
+```
+wget -O aria2.sh https://raw.githubusercontent.com/jxwdsb/xinwen/master/aria2.sh && bash aria2.sh
+```
 优雅一键SSR   <br>
 ```
 wget -P /var/xinwen/ssr https://raw.githubusercontent.com/jxwdsb/xinwen/master/shadowsocks.json && docker pull 4kerccc/shadowsocksr && docker run --name ssrr -itd -p 8887:80 -v /var/xinwen/ssr/shadowsocks.json:/etc/shadowsocks.json 4kerccc/shadowsocksr
