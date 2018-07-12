@@ -5,18 +5,18 @@ if [[ $start == "y" ]]; then
 	wget https://raw.githubusercontent.com/jxwdsb/xinwen/master/ssl/sslforfree.zip 
 	7z x sslforfree.zip -r -o/var/xinwen/nginx -y 
 	cd /var/xinwen/nginx 
-	for line1 in `cat /var/xinwen/nginx/certificate.crt`
+	for line1 in `cat certificate.crt`
 	do
 		#什么也不干
 	done
-	for line2 in `cat /var/xinwen/nginx/ca_bundle.crt`
+	for line2 in `cat ca_bundle.crt`
 	do
 		#什么也不干
 	done
-	if [[ -e /var/xinwen/nginx/server.crt ]]; then
-		rm /var/xinwen/nginx/server.crt
+	if [[ -e server.crt ]]; then
+		rm server.crt
 	fi
-	echo ${line1}${line2} > /var/xinwen/nginx/server.crt
+	echo ${line1}${line2} > server.crt
 	rm /var/xinwen/sslforfree.zip 
 	rm /var/xinwen/nginx/certificate.crt
 	rm /var/xinwen/nginx/ca_bundle.crt
@@ -24,6 +24,7 @@ if [[ $start == "y" ]]; then
 	wget https://raw.githubusercontent.com/jxwdsb/xinwen/master/ssl/defult.conf 
 	docker restart mynginx 
 	#docker exec -i -t mynginx /bin/bash -c 'nginx -s reload' 重载配置也行
+	cd /root
 else 
 	echo -e  "\033[31m 取消安装 \033[0m" 
 fi
