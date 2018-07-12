@@ -23,6 +23,7 @@ if [[ $start == "y" ]]; then
 	rm /var/xinwen/nginx/defult.conf
 	wget https://raw.githubusercontent.com/jxwdsb/xinwen/master/ssl/defult.conf 
 	docker restart mynginx 
+	#docker exec -i -t mynginx /bin/bash -c 'nginx -s reload' 重载配置也行
 else 
 	echo -e  "\033[31m 取消安装 \033[0m" 
 fi
