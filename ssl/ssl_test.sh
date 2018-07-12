@@ -12,7 +12,7 @@ if [[ $start == "y" ]]; then
 	rm /var/xinwen/sslforfree.zip 
 	rm /var/xinwen/nginx/certificate.crt
 	rm /var/xinwen/nginx/ca_bundle.crt
-	rm /var/xinwen/nginx/defult.conf
+	rm /var/xinwen/nginx/default.conf
 	wget https://raw.githubusercontent.com/jxwdsb/xinwen/master/ssl/default.conf 
 	docker restart mynginx 
 	#docker exec -i -t mynginx /bin/bash -c 'nginx -s reload' 重载配置也行
