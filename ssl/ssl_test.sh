@@ -8,7 +8,9 @@ if [[ $start == "y" ]]; then
 	if [[ -e server.crt ]]; then
 		rm server.crt
 	fi
-	cat certificate.crt ca_bundle.crt > server.crt
+	cat certificate.crt > server.crt
+	echo >> server.crt #不给换行它就不开机 
+	cat ca_bundle.crt >> server.crt
 	rm /var/xinwen/sslforfree.zip 
 	rm /var/xinwen/nginx/certificate.crt
 	rm /var/xinwen/nginx/ca_bundle.crt
