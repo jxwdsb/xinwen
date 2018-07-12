@@ -5,18 +5,10 @@ if [[ $start == "y" ]]; then
 	wget https://raw.githubusercontent.com/jxwdsb/xinwen/master/ssl/sslforfree.zip 
 	7z x sslforfree.zip -r -o/var/xinwen/nginx -y 
 	cd /var/xinwen/nginx 
-	for line1 in `cat certificate.crt`
-	do
-		echo
-	done
-	for line2 in `cat ca_bundle.crt`
-	do
-		echo
-	done
 	if [[ -e server.crt ]]; then
 		rm server.crt
 	fi
-	echo ${line1}${line2} > server.crt
+	cat certificate.crt ca_bundle.crt > server.crt
 	rm /var/xinwen/sslforfree.zip 
 	rm /var/xinwen/nginx/certificate.crt
 	rm /var/xinwen/nginx/ca_bundle.crt
