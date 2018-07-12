@@ -1,5 +1,5 @@
 #!/bin/bash
-read -t 30 -n 1 -p "开始安装吗?[y/n]:" start 
+read -t 30 -n 1 -p "开始配置吗?[y/n]:" start 
 if [[ $start == "y" ]]; then
 	cd /var/xinwen 
 	wget https://raw.githubusercontent.com/jxwdsb/xinwen/master/ssl/sslforfree.zip 
