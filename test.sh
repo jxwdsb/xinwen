@@ -36,6 +36,7 @@ if [[ $start == "y" ]]; then
 	echo -e "\033[32m 安装完成 \033[0m"
 	echo -e "\033[32m nginx 站点目录:/var/xinwen/www \033[0m"
 	echo -e "\033[32m nginx 配置文件:/var/xinwen/nginx \033[0m"
+	cd /root
 	exit 0
 else
 	echo 
