@@ -4,7 +4,7 @@
     "server_port":80,
     "local_address":"127.0.0.1",
     "local_port":1080,
-    "password":"jxw12181218",
+    "password":"xinwen",
     "timeout":120,
     "method":"chacha20",
     "protocol":"auth_sha1_v4",
