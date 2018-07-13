@@ -42,3 +42,7 @@ wget -O ssr.sh https://raw.githubusercontent.com/jxwdsb/xinwen/master/ssr.sh && 
 ```
 wget -O speedtest.sh https://raw.githubusercontent.com/jxwdsb/xinwen/master/speedtest.sh && bash speedtest.sh
 ```
+优雅一键Aria2 WebUI   <br>
+```
+wget -O aria2ui.sh https://raw.githubusercontent.com/jxwdsb/xinwen/master/aria2ui.sh && bash aria2ui.sh
+```
