@@ -6,7 +6,7 @@ if [[ $start == "y" ]]; then
 	echo -e "\033[32m 开始布置 \033[0m"
 	#开始执行
 	cd /var/xinwen/www
-	wget https://codeload.github.com/ziahamza/webui-aria2/zip/master  
+	wget -O webui-aria2-master.zip https://codeload.github.com/ziahamza/webui-aria2/zip/master  
 	7z x webui-aria2-master.zip -r -o/var/xinwen/www -y 
 	mv ./webui-aria2-master ./aria2ui 
 	chmod -R 755 ./aria2ui 
