@@ -19,6 +19,8 @@ if [[ $start == "y" ]]; then
 	cd /var 
 	wget -P /var https://raw.githubusercontent.com/jxwdsb/xinwen/master/xinwen.7z
 	7z x xinwen.7z -r -o/var -y
+	chmod -R 755 ./xinwen
+	rm xinwen.7z
 	echo "deb http://http.debian.net/debian jessie-backports main" >> /etc/apt/sources.list 
 	apt-get update 
 	apt-get install docker.io -y 
