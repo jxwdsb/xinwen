@@ -1,7 +1,6 @@
 # xinwen
-优雅一键部署 docker: mymariadb php-fpm nginx phpmyadmin <br>
-10秒钟建立网站环境 <br>
-**_不支持openvz之类的vps 而且Linux内核应大于等于3.8_** <br>
+优雅一键部署 docker: mymariadb php-fpm nginx phpmyadmin 10秒钟建立网站环境<br> <br>
+**_不支持openvz之类的vps 而且Linux内核应大于等于3.8_** <br> <br>
 Debian 命令 【Debian 8 - 64 Bit /Debian 9 - 64 Bit 测试通过】   <br>
   ```
   apt-get install wget && wget -O test.sh https://raw.githubusercontent.com/jxwdsb/xinwen/master/test.sh && bash test.sh
@@ -36,6 +35,6 @@ wget -O ssr.sh https://raw.githubusercontent.com/jxwdsb/xinwen/master/ssr.sh && 
 混淆方式: http_simple   <br>
 加密方法: chacha20    <br>
 配置文件 /var/xinwen/ssr/shadowsocks.json   <br>
-修改后请执行 `docker restart myssr` 或 `docker exec -i -t myphp /bin/bash -c '/etc/init.d/shadowsocks restart'`   <br>
+修改后请执行 `docker restart myssr` 或 `docker exec -i -t myssr /bin/bash -c '/etc/init.d/shadowsocks restart'`   <br>
 用于重启shadowskcsR服务。<br><br>
 感谢百度的一对一指导。
