@@ -26,16 +26,16 @@ wget -O aria2.sh https://raw.githubusercontent.com/jxwdsb/xinwen/master/aria2.sh
 ```
 优雅一键SSR   <br>
 ```
-wget -P /var/xinwen/ssr https://raw.githubusercontent.com/jxwdsb/xinwen/master/shadowsocks.json && docker pull 4kerccc/shadowsocksr && docker run --name ssrr -itd -p 8887:80 -v /var/xinwen/ssr/shadowsocks.json:/etc/shadowsocks.json 4kerccc/shadowsocksr
+wget -O ssr.sh https://raw.githubusercontent.com/jxwdsb/xinwen/master/ssr.sh && bash ssr.sh
 ```
 
 服务器IP地址: yourip   <br>
-远程端口: 8887   <br>
-密码: jxw12181218   <br>
+远程端口: 你设置的端口 或 8887   <br>
+密码: 你设置的密码   <br>
 认证协议: auth_sha1_v4   <br>
 混淆方式: http_simple   <br>
 加密方法: chacha20    <br>
-配置文件 /etc/shadowsocks.json   <br>
-修改后请执行 /etc/init.d/shadowsocks restart   <br>
+配置文件 /var/xinwen/ssr/shadowsocks.json   <br>
+修改后请执行 `docker restart myssr` 或 `docker exec -i -t myphp /bin/bash -c '/etc/init.d/shadowsocks restart'`   <br>
 用于重启shadowskcsR服务。<br><br>
 感谢百度的一对一指导。
