@@ -37,4 +37,8 @@ wget -O ssr.sh https://raw.githubusercontent.com/jxwdsb/xinwen/master/ssr.sh && 
 配置文件 /var/xinwen/ssr/shadowsocks.json   <br>
 修改后请执行 `docker restart myssr` 或 `docker exec -i -t myssr /bin/bash -c '/etc/init.d/shadowsocks restart'`   <br>
 用于重启shadowskcsR服务。<br><br>
-感谢百度的一对一指导。
+
+优雅一键测速(非原创)   <br>
+```
+wget -O speedtest.sh https://raw.githubusercontent.com/jxwdsb/xinwen/master/speedtest.sh && bash speedtest.sh
+```
