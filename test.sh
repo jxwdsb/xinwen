@@ -25,7 +25,7 @@ if [[ $start == "y" ]]; then
 	apt-get update 
 	apt-get install docker.io -y 
 	docker pull mariadb 
-	docker pull php
+	docker pull php:fpm
 	docker pull nginx 
 	docker pull phpmyadmin/phpmyadmin 
 	docker run --name mymariadb -d -e MYSQL_ROOT_PASSWORD=$passwd mariadb 
