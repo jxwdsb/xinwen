@@ -1,2 +1,2 @@
-FROM php:7.2.7-fpm
+FROM php
 RUN apt-get update && docker-php-ext-install mysqli pdo_mysql
