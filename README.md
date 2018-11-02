@@ -19,6 +19,10 @@ apt-get install curl && curl -sSL https://get.daocloud.io/daotools/set_mirror.sh
  ```
  wget -O test1.sh https://raw.githubusercontent.com/jxwdsb/xinwen/master/test1.sh && bash test1.sh
  ```
+一键卸载全部容器 <br>
+```
+wget -O del_docker.sh https://raw.githubusercontent.com/jxwdsb/xinwen/master/del_docker.sh && bash del_docker.sh
+```
 优雅一键Aria2 <br>
 ```
 wget -O aria2.sh https://raw.githubusercontent.com/jxwdsb/xinwen/master/aria2.sh && bash aria2.sh
