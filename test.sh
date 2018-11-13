@@ -13,7 +13,7 @@ if [[ $start == "y" ]]; then
 	fi
 	echo -e "\033[32m 开始安装 \033[0m"
 	#开始执行
-	apt-get update 
+	#apt-get update 
 	apt-get install wget 
 	apt-get install p7zip-full -y
 	cd /var 
