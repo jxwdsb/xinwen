@@ -23,7 +23,7 @@ if [[ $start == "y" ]]; then
 	rm xinwen.7z
 	echo "deb http://http.debian.net/debian jessie-backports main" >> /etc/apt/sources.list 
 	apt-get update #阿里云卡住
-	apt-get install docker.io -y 
+	apt-get -y --force-yes install docker.io #apt-get install docker.io -y 
 	docker pull mariadb 
 	docker pull php:fpm
 	docker pull nginx 
