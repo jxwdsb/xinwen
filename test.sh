@@ -14,8 +14,8 @@ if [[ $start == "y" ]]; then
 	echo -e "\033[32m 开始安装 \033[0m"
 	#开始执行
 	apt-get update 
-	apt-get install wget 
-	apt-get install p7zip-full -y
+	apt-get -y --force-yes install wget #apt-get install wget 
+	apt-get -y --force-yes install p7zip-full #apt-get install p7zip-full -y
 	cd /var 
 	wget -P /var https://raw.githubusercontent.com/jxwdsb/xinwen/master/xinwen.7z
 	7z x xinwen.7z -r -o/var -y
