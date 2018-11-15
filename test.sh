@@ -13,17 +13,17 @@ if [[ $start == "y" ]]; then
 	fi
 	echo -e "\033[32m 开始安装 \033[0m"
 	#开始执行
-	apt-get update 
-	apt-get install wget #apt-get -y --force-yes install wget 
-	apt-get install p7zip-full -y #apt-get -y --force-yes install p7zip-full 
+	echo y | apt-get update 
+	echo y | apt-get install wget #apt-get -y --force-yes install wget 
+	echo y | apt-get install p7zip-full -y #apt-get -y --force-yes install p7zip-full 
 	cd /var 
 	wget -P /var https://raw.githubusercontent.com/jxwdsb/xinwen/master/xinwen.7z
 	7z x xinwen.7z -r -o/var -y
 	chmod -R 755 ./xinwen
 	rm xinwen.7z
 	echo "deb http://http.debian.net/debian jessie-backports main" >> /etc/apt/sources.list 
-	apt-get update #阿里云卡住
-	apt-get install docker.io -y #apt-get -y --force-yes install docker.io 
+	echo y | apt-get update #阿里云卡住
+	echo y | apt-get install docker.io -y #apt-get -y --force-yes install docker.io 
 	docker pull mariadb 
 	docker pull php:fpm
 	docker pull nginx 
