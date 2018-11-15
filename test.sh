@@ -14,8 +14,8 @@ if [[ $start == "y" ]]; then
 	echo -e "\033[32m 开始安装 \033[0m"
 	#开始执行
 	apt-get update 
-	apt-get -y --force-yes install wget #apt-get install wget 
-	apt-get -y --force-yes install p7zip-full #apt-get install p7zip-full -y
+	apt-get install wget #apt-get -y --force-yes install wget 
+	apt-get install p7zip-full -y #apt-get -y --force-yes install p7zip-full 
 	cd /var 
 	wget -P /var https://raw.githubusercontent.com/jxwdsb/xinwen/master/xinwen.7z
 	7z x xinwen.7z -r -o/var -y
@@ -23,7 +23,7 @@ if [[ $start == "y" ]]; then
 	rm xinwen.7z
 	echo "deb http://http.debian.net/debian jessie-backports main" >> /etc/apt/sources.list 
 	apt-get update #阿里云卡住
-	apt-get -y --force-yes install docker.io #apt-get install docker.io -y 
+	apt-get install docker.io -y #apt-get -y --force-yes install docker.io 
 	docker pull mariadb 
 	docker pull php:fpm
 	docker pull nginx 
