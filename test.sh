@@ -21,7 +21,7 @@ if [[ $start == "y" ]]; then
 	7z x xinwen.7z -r -o/var -y
 	chmod -R 755 ./xinwen
 	rm xinwen.7z
-	echo "deb http://http.debian.net/debian jessie-backports main" >> /etc/apt/sources.list 
+	#echo "deb http://http.debian.net/debian jessie-backports main" >> /etc/apt/sources.list 
 	echo y | apt-get update #阿里云卡住
 	echo y | apt-get install docker.io -y #apt-get -y --force-yes install docker.io 
 	docker pull mariadb 
