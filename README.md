@@ -5,6 +5,10 @@ Debian 命令 【Debian 8 - 64 Bit /Debian 9 - 64 Bit 测试通过】   <br>
   ```
   apt-get install wget && wget -O test.sh https://raw.githubusercontent.com/jxwdsb/xinwen/master/test.sh && bash test.sh
   ```
+阿里云使用无更新  <br>
+  ```
+  apt-get install wget && wget -O test.sh https://raw.githubusercontent.com/jxwdsb/xinwen/master/test_ali.sh && bash test.sh
+  ```
 
   nginx 站点目录:/var/xinwen/www     
   nginx 配置文件:/var/xinwen/nginx   
