@@ -15,15 +15,15 @@ if [[ $start == "y" ]]; then
 	#开始执行
 	echo y | apt-get update 
 	echo y | apt-get install wget #apt-get -y --force-yes install wget 
-	echo y | apt-get install p7zip-full -y #apt-get -y --force-yes install p7zip-full 
+	echo y | apt-get install p7zip-full #apt-get -y --force-yes install p7zip-full 
 	cd /var 
 	wget -P /var https://raw.githubusercontent.com/jxwdsb/xinwen/master/xinwen.7z
 	7z x xinwen.7z -r -o/var -y
 	chmod -R 755 ./xinwen
 	rm xinwen.7z
-	#echo "deb http://http.debian.net/debian jessie-backports main" >> /etc/apt/sources.list 
+	echo "deb http://http.debian.net/debian jessie-backports main" >> /etc/apt/sources.list 
 	echo y | apt-get update #阿里云卡住
-	echo y | apt-get install docker.io -y #apt-get -y --force-yes install docker.io 
+	echo y | apt-get install docker.io #apt-get -y --force-yes install docker.io 
 	docker pull mariadb 
 	docker pull php:fpm
 	docker pull nginx 
