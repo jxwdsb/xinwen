@@ -15,13 +15,14 @@ if [[ $start == "y" ]]; then
 	#开始执行
 	yum update 
 	yum install wget 
+	yum install epel-release
 	yum install p7zip -y
-	cd /var 
+	cd /var
 	wget -P /var https://raw.githubusercontent.com/jxwdsb/xinwen/master/xinwen.7z
-	7z x xinwen.7z -r -o/var -y
+	7za x xinwen.7z -r -o/var -y
 	chmod -R 755 ./xinwen
 	rm xinwen.7z
-	yum install epel-release
+	
 	yum update 
 	yum install docker-io -y 
 	docker pull mariadb 
@@ -32,7 +33,7 @@ if [[ $start == "y" ]]; then
 	cd /var/xinwen/123 
 	docker build -t myphp .
 	docker run --name myphp -d -v /var/xinwen/www:/var/www/html --link mymariadb:mysql myphp 
-	docker run --name mynginx -d -p 80:80 -p 443:443   -v /var/xinwen/www:/usr/share/nginx/html -v /var/xinwen/nginx:/etc/nginx/conf.d --link myphp:php   nginx 
+	docker run --name mynginx -d -p 80:80 -p 443:443 -v /var/xinwen/www:/usr/share/nginx/html -v /var/xinwen/nginx:/etc/nginx/conf.d --link myphp:php nginx
 	docker restart mynginx 
 	docker run --name myadmin -d --link mymariadb:db -p 8080:80 phpmyadmin/phpmyadmin
 	echo -e "\033[32m 安装完成 \033[0m"
