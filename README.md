@@ -5,6 +5,10 @@ Debian 命令 【Debian 8 - 64 Bit /Debian 9 - 64 Bit 测试通过】   <br>
   ```
   apt-get install wget && wget -O test.sh https://raw.githubusercontent.com/jxwdsb/xinwen/master/test.sh && bash test.sh
   ```
+Centos 命令 【Centos 7.5 - 64 Bit 测试通过】   <br>
+  ```
+  apt-get install wget && wget -O test.sh https://raw.githubusercontent.com/jxwdsb/xinwen/master/testcentos.sh && bash testcentos.sh
+  ```
 阿里云使用无更新  <br>
   ```
   apt-get install wget && wget -O test.sh https://raw.githubusercontent.com/jxwdsb/xinwen/master/test_ali.sh && bash test.sh
