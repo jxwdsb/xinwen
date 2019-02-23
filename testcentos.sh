@@ -15,7 +15,7 @@ if [[ $start == "y" ]]; then
 	#开始执行
 	yum update 
 	yum install wget 
-	yum install epel-release
+	yum install epel-release -y
 	yum install p7zip -y
 	cd /var
 	wget -P /var https://raw.githubusercontent.com/jxwdsb/xinwen/master/xinwen.7z
@@ -25,6 +25,7 @@ if [[ $start == "y" ]]; then
 	
 	yum update 
 	yum install docker-io -y 
+	service docker start
 	docker pull mariadb 
 	docker pull php:fpm
 	docker pull nginx 
