@@ -13,14 +13,19 @@ if [[ $weizhi > 0 ]]; then
 	#echo "是 Debian 系统"
 	weizhi="1"
 else
-	#echo "是 linux 系统"
-	read -t 30 -n 1 -p "是Centos系统吗?[y/n]:" start 
-	if [[ $start == "y" ]]; then
-		weizhi="2"
+	#echo "不是 Debian 系统"
+	weizhi=`awk -v a="$start" -v b="Ubuntu" 'BEGIN{print index(a,b)}'`
+	if [[ $weizhi > 0 ]]; then
+		weizhi="1"
 	else
-		echo
-		echo -e  "\033[31m 取消安装 \033[0m"
-		exit 0
+		read -t 30 -n 1 -p "是Centos系统吗?[y/n]:" start 
+		if [[ $start == "y" ]]; then
+			weizhi="2"
+		else
+			echo
+			echo -e  "\033[31m 取消安装 \033[0m"
+			exit 0
+		fi
 	fi
 fi 
 echo
