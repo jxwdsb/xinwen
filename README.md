@@ -3,9 +3,17 @@
 **_不支持openvz之类的vps 而且Linux内核应大于等于3.8_** <br> <br>
 一键部署 命令 【Centos 7.5 /Debian 8 /Debian 9 测试通过 仅支持64位系统】   <br>
   ```
-  apt-get install wget && wget -O test.sh https://raw.githubusercontent.com/jxwdsb/xinwen/master/pd.sh && bash test.sh
+   wget -O test.sh https://raw.githubusercontent.com/jxwdsb/xinwen/master/pd.sh && bash test.sh
   ```
-
+？
+Debian
+```
+apt-get install wget
+```
+Centos
+```
+yum install wget
+```
 阿里云使用无更新  <br>
   ```
   apt-get install wget && wget -O test.sh https://raw.githubusercontent.com/jxwdsb/xinwen/master/test_ali.sh && bash test.sh
