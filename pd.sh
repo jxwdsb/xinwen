@@ -18,12 +18,15 @@ else
 	if [[ $weizhi > 0 ]]; then
 		weizhi="1"
 	else
-		read -t 30 -n 1 -p "是Centos系统吗?[y/n]:" start 
-		if [[ $start == "y" ]]; then
+		start=`cat /proc/version`
+		weizhi=`awk -v a="$start" -v b="centos" 'BEGIN{print index(a,b)}'`
+		#read -t 30 -n 1 -p "是Centos系统吗?[y/n]:" start 
+		#if [[ $start == "y" ]]; then
+		if [[ $start > 0 ]]; then
 			weizhi="2"
 		else
 			echo
-			echo -e  "\033[31m 取消安装 \033[0m"
+			echo -e  "\033[31m 取消安装,当前系统暂不支持 \033[0m"
 			exit 0
 		fi
 	fi
