@@ -11,18 +11,20 @@ start=`uname -v`
 weizhi=`awk -v a="$start" -v b="Debian" 'BEGIN{print index(a,b)}'`
 if [[ $weizhi > 0 ]]; then
 	#echo "是 Debian 系统"
-	weizhi=1
+	weizhi="1"
 else
 	#echo "是 linux 系统"
+	echo
 	read -t 30 -n 1 -p "是Centos系统吗?[y/n]:" start 
 	if [[ $start == "y" ]]; then
-		weizhi=2
+		weizhi="2"
 	else
 		echo
 		echo -e  "\033[31m 取消安装 \033[0m"
 		exit 0
 	fi
 fi 
+
 read -t 30 -n 1 -p "开始安装吗?[y/n]:" start 
 if [[ $start == "y" ]]; then
 	echo
@@ -31,12 +33,13 @@ if [[ $start == "y" ]]; then
 			echo -e "\033[31m 安装错误.未设置数据库密码 \033[0m"
 			exit 0
 		fi
+		echo
 		echo -e "\033[32m 开始安装 \033[0m"
 		#开始执行
 
 		cd /var 
 		wget -P /var https://raw.githubusercontent.com/jxwdsb/xinwen/master/xinwen.7z
-		if [[ $weizhi==1 ]]; then
+		if [[ $weizhi=="1" ]]; then
 			apt-get update 
 			apt-get install wget 
 			apt-get install p7zip-full -y
