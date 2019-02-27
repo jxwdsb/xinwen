@@ -1,14 +1,11 @@
 # xinwen
 优雅一键部署 docker: mymariadb php-fpm nginx phpmyadmin 10秒钟建立网站环境<br> <br>
 **_不支持openvz之类的vps 而且Linux内核应大于等于3.8_** <br> <br>
-Debian 命令 【Debian 8 - 64 Bit /Debian 9 - 64 Bit 测试通过】   <br>
+一键部署 命令 【Centos 7.5 /Debian 8 /Debian 9 测试通过 仅支持64位系统】   <br>
   ```
-  apt-get install wget && wget -O test.sh https://raw.githubusercontent.com/jxwdsb/xinwen/master/test.sh && bash test.sh
+  apt-get install wget && wget -O test.sh https://raw.githubusercontent.com/jxwdsb/xinwen/master/pd.sh && bash test.sh
   ```
-Centos 命令 【Centos 7.5 - 64 Bit 测试通过】   <br>
-  ```
-  yum install wget && wget -O testcentos.sh https://raw.githubusercontent.com/jxwdsb/xinwen/master/testcentos.sh && bash testcentos.sh
-  ```
+
 阿里云使用无更新  <br>
   ```
   apt-get install wget && wget -O test.sh https://raw.githubusercontent.com/jxwdsb/xinwen/master/test_ali.sh && bash test.sh
