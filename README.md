@@ -1,5 +1,6 @@
 # xinwen
 优雅一键部署 docker: mymariadb php-fpm nginx phpmyadmin 10秒钟建立网站环境<br> <br>
+（PHP默认添加Mysqli与PDO_Mysql拓展 ）<br> <br>
 **_不支持openvz之类的vps 而且Linux内核应大于等于3.8_** <br> <br>
 一键部署 命令 【Centos 6.5 /Centos 7.5 /Debian 8 /Debian 9 /Ubuntu 16.04 /Ubuntu 18.04 测试通过 仅支持64位系统】   <br>
   ```
