@@ -10,6 +10,7 @@ if [[ $start == "y" ]]; then
 	if [[ ! -n "$port" ]]; then
 		port=8887
 	fi
+	echo
 	read -s -p "设置连接密码:" passwd 
 	if [[ ! -n "$passwd" ]]; then
 		echo -e "\033[31m 安装错误.未设置连接密码 \033[0m"
@@ -22,10 +23,11 @@ if [[ $start == "y" ]]; then
 	chmod -R 755 /var/xinwen/ssr
 	docker pull 4kerccc/shadowsocksr
 	docker run --name myssr -itd -p $port:80 -v /var/xinwen/ssr/shadowsocks.json:/etc/shadowsocks.json 4kerccc/shadowsocksr
+	ip=`ifconfig eth0 | grep 'inet ' | sed s/^.*inet//g | sed s/netmask.*$//g | sed 's/ //g'`
 	echo -e "\033[32m 安装完成 \033[0m"
-	echo -e "\033[32m 服务器IP地址: yourip \033[0m"
+	echo -e "\033[32m 服务器IP地址: "$ip" \033[0m"
 	echo -e "\033[32m 远程端口: $port \033[0m"
-	echo -e "\033[32m 密码: jxw12181218 \033[0m"
+	echo -e "\033[32m 密码: "$passwd" \033[0m"
 	echo -e "\033[32m 认证协议: auth_sha1_v4 \033[0m"
 	echo -e "\033[32m 混淆方式: http_simple \033[0m"
 	echo -e "\033[32m 加密方法: chacha20 \033[0m"
