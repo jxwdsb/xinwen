@@ -63,6 +63,17 @@ if [[ $start == "y" ]]; then
 			yum install docker-io -y 
 			service docker start
 		fi
+		#############判断配置文件
+		if [[ ! -f "/var/xinwen/nginx/default.conf" ]]; then
+			mv /var/xinwen/nginx/default.conf1 /var/xinwen/nginx/default.conf
+		fi
+		if [[ ! -f "/var/xinwen/www/index.php" ]]; then
+			mv /var/xinwen/www/index.php1 /var/xinwen/www/index.php
+		fi
+		if [[ ! -f "/var/xinwen/123/Dockerfile" ]]; then
+			mv /var/xinwen/123/Dockerfile1 /var/xinwen/123/Dockerfile
+		fi
+		############结束判断
 		chmod -R 755 ./xinwen
 		rm xinwen.7z 
 		docker pull mariadb 
@@ -80,9 +91,13 @@ if [[ $start == "y" ]]; then
 		############################
 		echo -e "\033[32m 开始安装SSR \033[0m"
 		#开始执行
-		wget -P /var/xinwen/ssr https://raw.githubusercontent.com/jxwdsb/xinwen/master/shadowsocks.json 
-		sed -i "s/xinwen/$passwd/g" `grep xinwen -rl /var/xinwen/ssr`
-		chmod -R 755 /var/xinwen/ssr
+		#包含在xinwen 7z里#wget -P /var/xinwen/ssr https://raw.githubusercontent.com/jxwdsb/xinwen/master/shadowsocks.json 
+		if [[ ! -f "/var/xinwen/ssr/shadowsocks.json" ]]; then
+			mv /var/xinwen/ssr/shadowsocks.json1 /var/xinwen/ssr/shadowsocks.json
+			sed -i "s/xinwen/$passwd/g" `grep xinwen -rl /var/xinwen/ssr`
+		fi
+		#chmod -R 755 /var/xinwen/ssr
+		chmod -R 777 /var/xinwen
 		docker pull 4kerccc/shadowsocksr
 		docker run --name myssr -itd -p $port:80 -v /var/xinwen/ssr/shadowsocks.json:/etc/shadowsocks.json 4kerccc/shadowsocksr
 		ip=`ifconfig eth0 | grep 'inet ' | sed s/^.*inet//g | sed s/netmask.*$//g | sed 's/ //g'`
