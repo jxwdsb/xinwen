@@ -72,13 +72,43 @@ if [[ $start == "y" ]]; then
 		docker run --name mymariadb -d -e MYSQL_ROOT_PASSWORD=$passwd mariadb 
 		cd /var/xinwen/123 
 		docker build -t myphp .
-		docker run --name myphp -d -v /var/xinwen/www:/var/www/html --link mymariadb:mysql myphp 
+		docker run --name myphp -d -p 8281:8281 -p 8280:8280 -p 8282:8282 -v /var/xinwen/www:/var/www/html --link mymariadb:mysql myphp 
 		docker run --name mynginx -d -p 80:80 -p 443:443   -v /var/xinwen/www:/usr/share/nginx/html -v /var/xinwen/nginx:/etc/nginx/conf.d --link myphp:php   nginx 
 		docker restart mynginx 
 		docker run --name myadmin -d --link mymariadb:db -p 8080:80 phpmyadmin/phpmyadmin
+		
+		############################
+		echo -e "\033[32m 开始安装SSR \033[0m"
+		#开始执行
+		wget -P /var/xinwen/ssr https://raw.githubusercontent.com/jxwdsb/xinwen/master/shadowsocks.json 
+		sed -i "s/xinwen/$passwd/g" `grep xinwen -rl /var/xinwen/ssr`
+		chmod -R 755 /var/xinwen/ssr
+		docker pull 4kerccc/shadowsocksr
+		docker run --name myssr -itd -p $port:80 -v /var/xinwen/ssr/shadowsocks.json:/etc/shadowsocks.json 4kerccc/shadowsocksr
+		ip=`ifconfig eth0 | grep 'inet ' | sed s/^.*inet//g | sed s/netmask.*$//g | sed 's/ //g'`
+		############################
+		echo -e "\033[32m 开始安装Aria2 \033[0m"
+		#开始执行
+		docker run --name myaria2 -d -p $port:6800 -p 880:80 -p 800:8080 -v /var/xinwen/www/download:/data -e SECRET=$passwd xujinkai/aria2-with-webui
+		
 		echo -e "\033[32m 安装完成 \033[0m"
 		echo -e "\033[32m nginx 站点目录:/var/xinwen/www \033[0m"
 		echo -e "\033[32m nginx 配置文件:/var/xinwen/nginx \033[0m"
+
+		echo -e "\033[32m SSR 服务器IP地址: "$ip" \033[0m"
+		echo -e "\033[32m SSR 远程端口: $port \033[0m"
+		echo -e "\033[32m SSR 密码: "$passwd" \033[0m"
+		echo -e "\033[32m SSR 认证协议: auth_sha1_v4 \033[0m"
+		echo -e "\033[32m SSR 混淆方式: http_simple \033[0m"
+		echo -e "\033[32m SSR 加密方法: chacha20 \033[0m"
+		echo -e "\033[32m SSR 配置文件 /var/xinwen/ssr/shadowsocks.json \033[0m"
+		echo -e "\033[32m SSR 配置文件修改后执行 docker restart myssr \033[0m"
+
+		echo -e "\033[32m Aria2 下载目录:/var/xinwen/www/download \033[0m"
+		echo -e "\033[32m Aria2 连接端口:$port \033[0m"
+		echo -e "\033[32m Aria2 连接密码:$passwd \033[0m"
+		echo -e "\033[32m Aria2 后台管理:http://"$ip":880/ \033[0m"
+		echo -e "\033[32m Aria2 下载地址:http://"$ip"/download 或 http://"$ip":800/ \033[0m"
 		cd /root
 		exit 0
 else
