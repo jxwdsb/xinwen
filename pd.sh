@@ -35,9 +35,14 @@ echo
 read -t 30 -n 1 -p "开始安装吗?[y/n]:" start 
 if [[ $start == "y" ]]; then
 	echo
-	read -s -p "设置连接端口[默认8887]:" port 
+	read -s -p "设置SSR连接端口[默认8887]:" ssrport 
 	if [[ ! -n "$port" ]]; then
-		port=8887
+		ssrport=8887
+	fi
+	echo
+	read -s -p "设置Aria2连接端口[默认2346]:" aria2port 
+	if [[ ! -n "$port" ]]; then
+		aria2port=2346
 	fi
 	echo
 		read -s -p "设置密码:" passwd 
@@ -104,19 +109,19 @@ if [[ $start == "y" ]]; then
 		#chmod -R 755 /var/xinwen/ssr
 		chmod -R 777 /var/xinwen
 		docker pull 4kerccc/shadowsocksr
-		docker run --name myssr -itd -p $port:80 -v /var/xinwen/ssr/shadowsocks.json:/etc/shadowsocks.json 4kerccc/shadowsocksr
+		docker run --name myssr -itd -p $ssrport:80 -v /var/xinwen/ssr/shadowsocks.json:/etc/shadowsocks.json 4kerccc/shadowsocksr
 		ip=`ifconfig eth0 | grep 'inet ' | sed s/^.*inet//g | sed s/netmask.*$//g | sed 's/ //g'`
 		############################
 		echo -e "\033[32m 开始安装Aria2 \033[0m"
 		#开始执行
-		docker run --name myaria2 -d -p $port:6800 -p 880:80 -p 800:8080 -v /var/xinwen/www/download:/data -e SECRET=$passwd xujinkai/aria2-with-webui
+		docker run --name myaria2 -d -p $aria2port:6800 -p 880:80 -p 800:8080 -v /var/xinwen/www/download:/data -e SECRET=$passwd xujinkai/aria2-with-webui
 		
 		echo -e "\033[32m 安装完成 \033[0m"
 		echo -e "\033[32m nginx 站点目录:/var/xinwen/www \033[0m"
 		echo -e "\033[32m nginx 配置文件:/var/xinwen/nginx \033[0m"
 
 		echo -e "\033[32m SSR 服务器IP地址: "$ip" \033[0m"
-		echo -e "\033[32m SSR 远程端口: $port \033[0m"
+		echo -e "\033[32m SSR 远程端口: $ssrport \033[0m"
 		echo -e "\033[32m SSR 密码: "$passwd" \033[0m"
 		echo -e "\033[32m SSR 认证协议: auth_sha1_v4 \033[0m"
 		echo -e "\033[32m SSR 混淆方式: http_simple \033[0m"
@@ -125,7 +130,7 @@ if [[ $start == "y" ]]; then
 		echo -e "\033[32m SSR 配置文件修改后执行 docker restart myssr \033[0m"
 
 		echo -e "\033[32m Aria2 下载目录:/var/xinwen/www/download \033[0m"
-		echo -e "\033[32m Aria2 连接端口:$port \033[0m"
+		echo -e "\033[32m Aria2 连接端口:$aria2port \033[0m"
 		echo -e "\033[32m Aria2 连接密码:$passwd \033[0m"
 		echo -e "\033[32m Aria2 后台管理:http://"$ip":880/ \033[0m"
 		echo -e "\033[32m Aria2 下载地址:http://"$ip"/download 或 http://"$ip":800/ \033[0m"
