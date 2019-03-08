@@ -35,6 +35,11 @@ echo
 read -t 30 -n 1 -p "开始安装吗?[y/n]:" start 
 if [[ $start == "y" ]]; then
 	echo
+	read -s -p "设置连接端口[默认8887]:" port 
+	if [[ ! -n "$port" ]]; then
+		port=8887
+	fi
+	echo
 		read -s -p "设置密码:" passwd 
 		if [[ ! -n "$passwd" ]]; then
 			echo -e "\033[31m 安装错误.未设置密码 \033[0m"
