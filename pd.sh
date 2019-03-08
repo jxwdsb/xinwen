@@ -35,9 +35,9 @@ echo
 read -t 30 -n 1 -p "开始安装吗?[y/n]:" start 
 if [[ $start == "y" ]]; then
 	echo
-		read -s -p "设置mymariadb_root密码:" passwd 
+		read -s -p "设置密码:" passwd 
 		if [[ ! -n "$passwd" ]]; then
-			echo -e "\033[31m 安装错误.未设置数据库密码 \033[0m"
+			echo -e "\033[31m 安装错误.未设置密码 \033[0m"
 			exit 0
 		fi
 		echo
