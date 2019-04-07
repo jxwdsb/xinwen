@@ -60,9 +60,13 @@ if [[ $start == "y" ]]; then
 			#apt-get install wget 
 			apt-get install p7zip-full -y
 			7z x xinwen.7z -r -o/var -y
-			echo "deb http://http.debian.net/debian jessie-backports main" >> /etc/apt/sources.list 
+			######这里弃用
+			#echo "deb http://http.debian.net/debian jessie-backports main" >> /etc/apt/sources.list 
+			#apt-get update -y
+			#apt-get install docker.io -y 
 			apt-get update -y
-			apt-get install docker.io -y 
+			apt-get install curl -y 
+			curl -sSL https://get.docker.com/ | sh
 		else
 			yum update  -y
 			#yum install wget 
