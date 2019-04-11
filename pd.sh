@@ -119,7 +119,7 @@ if [[ $start == "y" ]]; then
 		echo -e "\033[32m 开始安装Aria2 \033[0m"
 		#开始执行
 		docker run --name myaria2 -d -p $aria2port:6800 -p 880:80 -p 800:8080 -v /var/xinwen/www/download:/data -e SECRET=$passwd xujinkai/aria2-with-webui
-		
+		ln -s /var/xinwen xinwen
 		echo -e "\033[32m 安装完成 \033[0m"
 		echo -e "\033[32m nginx 站点目录:/var/xinwen/www \033[0m"
 		echo -e "\033[32m nginx 配置文件:/var/xinwen/nginx \033[0m"
