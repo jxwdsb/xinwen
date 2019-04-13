@@ -87,8 +87,8 @@ if [[ $start == "y" ]]; then
 		if [[ ! -f "/var/xinwen/123/Dockerfile" ]]; then
 			mv /var/xinwen/123/Dockerfile1 /var/xinwen/123/Dockerfile
 		fi
-		if [[ ! -f "/etc/init.d/open_stystem.sh" ]]; then #开机启动全部docker
-			mv /var/xinwen/init.d/open_stystem.sh1 /etc/init.d/open_stystem.sh
+		if [[ ! -f "/etc/profile.d/open_system.sh" ]]; then #开机启动全部docker
+			mv /var/xinwen/profile.d/open_system.sh1 /etc/profile.d/open_system.sh
 		fi
 		############结束判断
 		chmod -R 755 ./xinwen
@@ -123,6 +123,8 @@ if [[ $start == "y" ]]; then
 		#开始执行
 		docker run --name myaria2 -d -p $aria2port:6800 -p 880:80 -p 800:8080 -v /var/xinwen/www/download:/data -e SECRET=$passwd xujinkai/aria2-with-webui
 		
+		ln -s /var/xinwen xinwen
+
 		echo -e "\033[32m 安装完成 \033[0m"
 		echo -e "\033[32m nginx 站点目录:/var/xinwen/www \033[0m"
 		echo -e "\033[32m nginx 配置文件:/var/xinwen/nginx \033[0m"
