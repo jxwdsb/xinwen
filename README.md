@@ -6,6 +6,10 @@
   ```
    wget -O test.sh https://raw.githubusercontent.com/jxwdsb/xinwen/master/pd.sh && bash test.sh
   ```
+一键部署 命令 【Debian 测试通过 仅支持64位系统】   <br>
+  ```
+   wget -O test.sh https://raw.githubusercontent.com/jxwdsb/xinwen/master/de.sh && bash test.sh
+  ```
 ？
 Debian
 ```
