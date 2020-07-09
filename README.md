@@ -8,7 +8,11 @@
   ```
 一键部署 命令 【Debian 测试通过 仅支持64位系统】   <br>
   ```
-   wget -O test.sh https://raw.githubusercontent.com/jxwdsb/xinwen/master/de.sh && bash test.sh
+   wget -O test.sh https://raw.githubusercontent.com/jxwdsb/xinwen/master/debian.sh && bash test.sh
+  ```
+一键删除 命令 【Debian 测试通过 仅支持64位系统】   <br>
+  ```
+   wget -O de.sh https://raw.githubusercontent.com/jxwdsb/xinwen/master/de.sh && bash de.sh
   ```
 ？
 Debian
