@@ -3,7 +3,7 @@
 #¨v: 0.0.1¨
 #¨By: xinwen¨
 echo ¨debian del [docker: mymariadb php-fpm nginx]¨
-read -s "确定删除? y" passwd 
+read -s -p "确定删除? 输入y再回车 " passwd 
 if [[ $passwd != 'y' ]]; then
 	echo -e "\033[31m 取消删除 \033[0m"
 	exit 0
