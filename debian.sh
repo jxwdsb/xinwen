@@ -51,6 +51,9 @@ cd /var/xinwen/www
 wget https://www.phpmyadmin.net/downloads/phpMyAdmin-latest-all-languages.zip
 7z x phpMyAdmin-latest-all-languages.zip -r -o/var/xinwen/www -y
 mv phpMyAdmin-5.0.2-all-languages phpmyadmin
+wget -P /var/xinwen/www/phpmyadmin https://raw.githubusercontent.com/jxwdsb/xinwen/master/config.inc.php
+chmod -R 755 phpmyadmin
+
 
 ln -s /var/xinwen /root/xinwen
 cd /root
