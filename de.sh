@@ -28,9 +28,13 @@ echo -e 'FROM php:fpm\nRUN apt-get update && docker-php-ext-install mysqli && do
 docker pull mariadb 
 docker run --name mymariadb -d -e MYSQL_ROOT_PASSWORD=$passwd mariadb 
 
+docker pull php:fpm
+cd /var/xinwen/123 
+docker build -t myphp .
+docker run --name myphp -d -p 8281:8281 -p 8280:8280 -p 8282:8282 -v /var/xinwen/www:/var/www/html --link mymariadb:mysql myphp 
 
 docker pull nginx 
-docker run --name mynginx -d -p 80:80 -p 443:443 -v /var/xinwen/www:/usr/share/nginx/html1 -v /var/xinwen/nginx:/etc/nginx/conf.d1 nginx
+docker run --name mynginx -d -p 80:80 -p 443:443 -v /var/xinwen/www:/usr/share/nginx/html1 -v /var/xinwen/nginx:/etc/nginx/conf.d1 --link myphp:php nginx
 docker exec -i -t mynginx /bin/bash -c 'mv /etc/nginx/conf.d/* /etc/nginx/conf.d1'
 docker exec -i -t mynginx /bin/bash -c 'rm -rf /etc/nginx/conf.d'
 docker exec -i -t mynginx /bin/bash -c 'ln -s /etc/nginx/conf.d1 /etc/nginx/conf.d'
@@ -38,12 +42,6 @@ docker exec -i -t mynginx /bin/bash -c 'mv /usr/share/nginx/html/* /usr/share/ng
 docker exec -i -t mynginx /bin/bash -c 'rm -rf /usr/share/nginx/html'
 docker exec -i -t mynginx /bin/bash -c 'ln -s /usr/share/nginx/html1 /usr/share/nginx/html'
 docker restart mynginx
-
-
-docker pull php:fpm
-cd /var/xinwen/123 
-docker build -t myphp .
-docker run --name myphp -d -p 8281:8281 -p 8280:8280 -p 8282:8282 -v /var/xinwen/www:/var/www/html --link mymariadb:mysql myphp 
 
 mv /var/xinwen/nginx/default.conf /var/xinwen/nginx/default.conf.backup
 wget -P /var/xinwen/nginx https://raw.githubusercontent.com/jxwdsb/xinwen/master/default.conf
