@@ -14,7 +14,7 @@ apt-get update -y
 apt-get install wget -y #防止是复制粘贴的代码
 apt-get install curl -y 
 curl -sSL https://get.docker.com/ | sh
-docker run -d --name  speedtest -p 0.0.0.0:8099:80 adolfintel/speedtest:latest
+#docker run -d --name  speedtest -p 0.0.0.0:8099:80 adolfintel/speedtest:latest
 apt-get install p7zip-full -y
 
 mkdir /var/xinwen

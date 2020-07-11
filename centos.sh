@@ -22,7 +22,7 @@ curl -sSL https://get.docker.com/ | sh
 systemctl start docker
 systemctl stop firewalld
 
-docker run -d --name  speedtest -p 0.0.0.0:8099:80 adolfintel/speedtest:latest
+#docker run -d --name  speedtest -p 0.0.0.0:8099:80 adolfintel/speedtest:latest
 
 #yum install p7zip -y
 #yum http://rpmfind.net/linux/mageia/distrib/cauldron/x86_64/media/core/release/p7zip-16.02-7.mga8.x86_64.rpm
