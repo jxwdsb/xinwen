@@ -37,8 +37,8 @@ docker pull nginx
 mkdir /var/xinwen
 chmod -R 755 /var/xinwen
 cd /var/xinwen
-mkdir 123 nginx www
-chmod -R 755 123 nginx www
+mkdir 123 nginx www php
+chmod -R 755 123 nginx www php
 echo -e 'FROM php:fpm\nRUN apt-get update && docker-php-ext-install mysqli && docker-php-ext-install pdo_mysql && docker-php-ext-install pcntl ' > /var/xinwen/123/Dockerfile
 
 
@@ -46,7 +46,12 @@ docker run --name mymariadb -d -e MYSQL_ROOT_PASSWORD=$passwd mariadb
 
 cd /var/xinwen/123 
 docker build -t myphp .
-docker run --name myphp -d -p 8281:8281 -p 8280:8280 -p 8282:8282 -v /var/xinwen/www:/var/www/html --link mymariadb:mysql myphp 
+docker run --name myphp -d -p 8281:8281 -p 8280:8280 -p 8282:8282 -v /var/xinwen/www:/var/www/html -v /var/xinwen/php:/usr/local/etc/php1 --link mymariadb:mysql myphp 
+docker exec -i -t myphp /bin/bash -c 'mv /usr/local/etc/php/* /usr/local/etc/php1'
+docker exec -i -t myphp /bin/bash -c 'rm -rf /usr/local/etc/php'
+docker exec -i -t myphp /bin/bash -c 'ln -s /usr/local/etc/php1 /usr/local/etc/php'
+docker restart myphp
+
 
 docker run --name mynginx -d -p 80:80 -p 443:443 -v /var/xinwen/www:/usr/share/nginx/html1 -v /var/xinwen/nginx:/etc/nginx/conf.d1 --link myphp:php nginx
 docker exec -i -t mynginx /bin/bash -c 'mv /etc/nginx/conf.d/* /etc/nginx/conf.d1'
