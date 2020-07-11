@@ -2,17 +2,13 @@
 优雅一键部署 docker: mymariadb php-fpm nginx phpmyadmin 10秒钟建立网站环境<br> <br>
 （PHP默认添加Mysqli与PDO_Mysql拓展 ）<br> <br>
 **_不支持openvz之类的vps 而且Linux内核应大于等于3.8_** <br> <br>
-一键部署 命令 【Centos 6.5 /Centos 7.5 /Debian 8 /Debian 9 /Ubuntu 16.04 /Ubuntu 18.04 测试通过 仅支持64位系统】   <br>
+一键部署 命令 【centos 测试通过 仅支持64位系统】   <br>
   ```
-   wget -O test.sh https://raw.githubusercontent.com/jxwdsb/xinwen/master/pd.sh && bash test.sh
+   wget -O centos.sh https://raw.githubusercontent.com/jxwdsb/xinwen/master/centos.sh && bash centos.sh
   ```
 一键部署 命令 【Debian 测试通过 仅支持64位系统】   <br>
   ```
-   wget -O test.sh https://raw.githubusercontent.com/jxwdsb/xinwen/master/debian.sh && bash test.sh
-  ```
-一键删除 命令 【Debian 测试通过 仅支持64位系统】   <br>
-  ```
-   wget -O de.sh https://raw.githubusercontent.com/jxwdsb/xinwen/master/de.sh && bash de.sh
+   wget -O debian.sh https://raw.githubusercontent.com/jxwdsb/xinwen/master/debian.sh && bash debian.sh
   ```
 ？
 Debian
