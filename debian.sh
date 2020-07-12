@@ -1,6 +1,6 @@
 #!/bin/bash
 #¨在Debian上安装Docker 快速搭建网站环境¨
-#¨v: 0.0.1¨
+#¨v: 0.0.2¨
 #¨By: xinwen¨
 echo ¨debian [docker: mymariadb php-fpm nginx]¨
 read -s -p "设置密码:" passwd 
@@ -31,14 +31,16 @@ docker run --name mymariadb -d -e MYSQL_ROOT_PASSWORD=$passwd mariadb
 docker pull php:fpm
 cd /var/xinwen/123 
 docker build -t myphp .
-docker run --name myphp -d -p 8281:8281 -p 8280:8280 -p 8282:8282 -v /var/xinwen/www:/var/www/html -v /var/xinwen/php:/usr/local/etc/php1 --link mymariadb:mysql myphp 
+#docker run --name myphp -d -p 8281:8281 -p 8280:8280 -p 8282:8282 -v /var/xinwen/www:/var/www/html -v /var/xinwen/php:/usr/local/etc/php1 --link mymariadb:mysql myphp 
+docker run --name myphp -d -p 8281:8281 -p 8280:8280 -p 8282:8282 -v /var/xinwen/www:/var/www/html -v /var/xinwen/php:/usr/local/etc/php1 -v /proc:/host/proc --privileged=true --link mymariadb:mysql myphp 
 docker exec -i -t myphp /bin/bash -c 'mv /usr/local/etc/php/* /usr/local/etc/php1'
 docker exec -i -t myphp /bin/bash -c 'rm -rf /usr/local/etc/php'
 docker exec -i -t myphp /bin/bash -c 'ln -s /usr/local/etc/php1 /usr/local/etc/php'
 docker restart myphp
 
 docker pull nginx 
-docker run --name mynginx -d -p 80:80 -p 443:443 -v /var/xinwen/www:/usr/share/nginx/html1 -v /var/xinwen/nginx:/etc/nginx/conf.d1 --link myphp:php nginx
+#docker run --name mynginx -d -p 80:80 -p 443:443 -v /var/xinwen/www:/usr/share/nginx/html1 -v /var/xinwen/nginx:/etc/nginx/conf.d1 --link myphp:php nginx
+docker run --name mynginx -d -p 80:80 -p 443:443 -v /var/xinwen/www:/usr/share/nginx/html1 -v /var/xinwen/nginx:/etc/nginx/conf.d1 --privileged=true --link myphp:php nginx
 docker exec -i -t mynginx /bin/bash -c 'mv /etc/nginx/conf.d/* /etc/nginx/conf.d1'
 docker exec -i -t mynginx /bin/bash -c 'rm -rf /etc/nginx/conf.d'
 docker exec -i -t mynginx /bin/bash -c 'ln -s /etc/nginx/conf.d1 /etc/nginx/conf.d'
@@ -67,3 +69,9 @@ cd /root
 #docker stop mymariadb && docker rm mymariadb
 #rm -rf /var/xinwen
 #rm -f /root/test.sh
+
+#然后容器里面通过 nsenter --mount=/host/proc/1/ns/mnt sh -c "ls /root" 这样执行。
+#如果需要网络数据的话用 nsenter --net=/host/proc/1/ns/net sh ...
+#nsenter --mount=/host/proc/1/ns/mnt sh -c "ls /root"
+#nsenter --mount=/host/proc/1/ns/mnt sh -c "docker ps -a"
+#nsenter --mount=/host/proc/1/ns/mnt sh -c "docker restart mynginx"
