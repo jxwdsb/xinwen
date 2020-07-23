@@ -16,7 +16,7 @@ yum install wget -y #防止是复制粘贴的代码
 yum install curl -y 
 #dnf remove docker-ce docker-ce-cli containerd.io #卸载
 #rm -rf /var/lib/docker #删除所有图像，容器和卷
-#wget https://download.docker.com/linux/centos/7/x86_64/stable/Packages/containerd.io-1.2.6-3.3.el7.x86_64.rpm
+wget https://download.docker.com/linux/centos/7/x86_64/stable/Packages/containerd.io-1.2.6-3.3.el7.x86_64.rpm
 yum install -y containerd.io*.rpm
 
 curl -sSL https://get.docker.com/ | sh
@@ -25,7 +25,7 @@ systemctl restart docker
 systemctl stop firewalld
 
 #yum http://rpmfind.net/linux/mageia/distrib/cauldron/x86_64/media/core/release/p7zip-16.02-7.mga8.x86_64.rpm
-#wget https://raw.githubusercontent.com/jxwdsb/xinwen/master/p7zip-16.02-7.mga8.x86_64.rpm
+wget https://raw.githubusercontent.com/jxwdsb/xinwen/master/p7zip-16.02-7.mga8.x86_64.rpm
 yum install -y p7zip*.rpm
 
 docker pull mariadb 
