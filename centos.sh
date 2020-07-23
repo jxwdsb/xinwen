@@ -10,23 +10,22 @@ if [[ ! -n "$passwd" ]]; then
 fi
 echo
 echo -e "\033[32m 开始安装 \033[0m"
+
 yum update -y
 yum install wget -y #防止是复制粘贴的代码
 yum install curl -y 
 #dnf remove docker-ce docker-ce-cli containerd.io #卸载
 #rm -rf /var/lib/docker #删除所有图像，容器和卷
-wget https://download.docker.com/linux/centos/7/x86_64/stable/Packages/containerd.io-1.2.6-3.3.el7.x86_64.rpm
+#wget https://download.docker.com/linux/centos/7/x86_64/stable/Packages/containerd.io-1.2.6-3.3.el7.x86_64.rpm
 yum install -y containerd.io*.rpm
 
 curl -sSL https://get.docker.com/ | sh
-systemctl start docker
+
+systemctl restart docker
 systemctl stop firewalld
 
-#docker run -d --name  speedtest -p 0.0.0.0:8099:80 adolfintel/speedtest:latest
-
-#yum install p7zip -y
 #yum http://rpmfind.net/linux/mageia/distrib/cauldron/x86_64/media/core/release/p7zip-16.02-7.mga8.x86_64.rpm
-wget https://raw.githubusercontent.com/jxwdsb/xinwen/master/p7zip-16.02-7.mga8.x86_64.rpm
+#wget https://raw.githubusercontent.com/jxwdsb/xinwen/master/p7zip-16.02-7.mga8.x86_64.rpm
 yum install -y p7zip*.rpm
 
 docker pull mariadb 
@@ -39,10 +38,10 @@ chmod -R 755 /var/xinwen
 cd /var/xinwen
 mkdir 123 nginx www php
 chmod -R 755 123 nginx www php
-echo -e 'FROM php:fpm\nRUN apt-get update && docker-php-ext-install mysqli && docker-php-ext-install pdo_mysql && docker-php-ext-install pcntl ' > /var/xinwen/123/Dockerfile
-
+echo -e 'FROM php:fpm\nRUN apt-get update && docker-php-ext-install mysqli && docker-php-ext-install pdo_mysql && docker-php-ext-install pcntl && apt-get install -y  libfreetype6-dev  libjpeg62-turbo-dev  libpng-dev && docker-php-ext-configure gd --with-freetype --with-jpeg && docker-php-ext-install -j$(nproc) gd && apt-get install -y zlib1g-dev libzip-dev && docker-php-ext-install zip' > /var/xinwen/123/Dockerfile
 
 docker run --name mymariadb -d -e MYSQL_ROOT_PASSWORD=$passwd mariadb 
+#docker restart mymariadb
 
 cd /var/xinwen/123 
 docker build -t myphp .
@@ -51,6 +50,8 @@ docker run --name myphp -d -p 8281:8281 -p 8280:8280 -p 8282:8282 -v /var/xinwen
 docker exec -i -t myphp /bin/bash -c 'mv /usr/local/etc/php/* /usr/local/etc/php1'
 docker exec -i -t myphp /bin/bash -c 'rm -rf /usr/local/etc/php'
 docker exec -i -t myphp /bin/bash -c 'ln -s /usr/local/etc/php1 /usr/local/etc/php'
+docker exec -i -t myphp /bin/bash -c 'apt-get install p7zip-full -y'
+wget -P /var/xinwen/php/conf.d https://raw.githubusercontent.com/jxwdsb/xinwen/master/1.ini
 docker restart myphp
 
 #--network host
@@ -79,8 +80,8 @@ chmod -R 755 phpmyadmin
 ln -s /var/xinwen /root/xinwen
 cd /root
 
-#docker stop mynginx && docker rm mynginx
-#docker stop myphp && docker rm myphp
+#docker stop mynginx && docker rm mynginx && docker stop myphp && docker rm myphp
+#docker restart mynginx && docker restart myphp
 #docker stop mymariadb && docker rm mymariadb
 #rm -rf /var/xinwen
 #rm -f /root/test.sh
