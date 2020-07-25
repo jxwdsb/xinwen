@@ -25,8 +25,8 @@ systemctl restart docker
 systemctl stop firewalld
 
 #yum http://rpmfind.net/linux/mageia/distrib/cauldron/x86_64/media/core/release/p7zip-16.02-7.mga8.x86_64.rpm
-wget https://raw.githubusercontent.com/jxwdsb/xinwen/master/p7zip-16.02-7.mga8.x86_64.rpm
-yum install -y p7zip*.rpm
+#wget https://raw.githubusercontent.com/jxwdsb/xinwen/master/p7zip-16.02-7.mga8.x86_64.rpm
+#yum install -y p7zip*.rpm
 
 docker pull mariadb 
 docker pull php:fpm
@@ -71,7 +71,8 @@ docker restart mynginx
 
 cd /var/xinwen/www
 wget https://www.phpmyadmin.net/downloads/phpMyAdmin-latest-all-languages.zip
-7za x phpMyAdmin-latest-all-languages.zip -r -o/var/xinwen/www -y
+#7za x phpMyAdmin-latest-all-languages.zip -r -o/var/xinwen/www -y
+docker exec -i -t myphp /bin/bash -c '7z x phpMyAdmin-latest-all-languages.zip'
 mv phpMyAdmin-5.0.2-all-languages phpmyadmin
 wget -P /var/xinwen/www/phpmyadmin https://raw.githubusercontent.com/jxwdsb/xinwen/master/config.inc.php
 chmod -R 755 phpmyadmin
