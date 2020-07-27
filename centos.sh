@@ -42,6 +42,7 @@ echo -e 'FROM php:fpm\nRUN apt-get update && docker-php-ext-install mysqli && do
 
 docker run --name mymariadb -d -e MYSQL_ROOT_PASSWORD=$passwd mariadb 
 #docker restart mymariadb
+#docker exec -it  mymariadb mysqldump -uroot -proot glxt1 > /var/xinwen/www/test_db.sql
 
 cd /var/xinwen/123 
 docker build -t myphp .
