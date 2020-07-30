@@ -74,7 +74,7 @@ cd /var/xinwen/www
 wget https://www.phpmyadmin.net/downloads/phpMyAdmin-latest-all-languages.zip
 #7za x phpMyAdmin-latest-all-languages.zip -r -o/var/xinwen/www -y
 #docker exec -i -t myphp /bin/bash -c '7z x /var/www/html/assets.7z && chmod -R 755 assets '
-docker exec -i -t myphp /bin/bash -c '7z x phpMyAdmin-latest-all-languages.zip'
+docker exec -i -t myphp /bin/bash -c '7z x phpMyAdmin-latest-all-languages.zip -r -y'
 mv phpMyAdmin-5.0.2-all-languages phpmyadmin
 wget -P /var/xinwen/www/phpmyadmin https://raw.githubusercontent.com/jxwdsb/xinwen/master/config.inc.php
 chmod -R 755 phpmyadmin
