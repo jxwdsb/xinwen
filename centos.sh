@@ -28,6 +28,7 @@ systemctl stop firewalld
 #wget https://raw.githubusercontent.com/jxwdsb/xinwen/master/p7zip-16.02-7.mga8.x86_64.rpm
 #yum install -y p7zip*.rpm
 
+#docker run -d -p 6688:80 ilemonrain/html5-speedtest:alpine
 docker pull mariadb 
 docker pull php:fpm
 docker pull nginx 
