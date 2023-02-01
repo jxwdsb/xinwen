@@ -46,8 +46,36 @@ apt upgrade -y
 cmd="apt install -y curl wget"
 eval ${cmd} || die "$cmd"
 
-function name() {
+function init() {
+	cmd="apt -y install redis-server mariadb-server"
+	eval ${cmd} || die "$cmd"
+
+	mysqladmin -uroot -proot password "root"
+	FIND_FILE="/etc/mysql/mariadb.conf.d/50-server.cnf"
+	FIND_STR="max_connections="
+	if [ `grep -c "$FIND_STR" $FIND_FILE` -ne '0' ];then
+		echo "跳过设置"
+		#exit 0
+	else
+		echo -e "\n\nmax_connections=3000" >> /etc/mysql/mariadb.conf.d/50-server.cnf
+	fi
+	systemctl restart mariadb
+
+	curl -sSL https://packages.sury.org/php/README.txt | bash -x
+	apt-cache showpkg php
+
+	cmd="apt -y install php8.0-cli php8.0-curl php8.0-mysql php8.0-pgsql php8.0-mbstring php8.0-imagick php8.0-gd php8.0-xml php8.0-zip"
+	eval ${cmd} || die "$cmd"
+
+	cmd="apt -y install git"
+	eval ${cmd} || die "$cmd"
 	
+	cd /root
+	git clone https://github.com/jxwdsb/xinwen.git
+	mv xinwen GitFiles
+
+	cmd="apt -y install screen"
+	eval ${cmd} || die "$cmd"
 }
 
 case $answer in
@@ -124,36 +152,8 @@ case $answer in
 
 	exit;;
 	B | b | 2) echo
-		cmd="apt -y install redis-server mariadb-server"
-		eval ${cmd} || die "$cmd"
-
-		mysqladmin -uroot -proot password "root"
-		FIND_FILE="/etc/mysql/mariadb.conf.d/50-server.cnf"
-		FIND_STR="max_connections="
-		if [ `grep -c "$FIND_STR" $FIND_FILE` -ne '0' ];then
-			echo "跳过设置"
-			#exit 0
-		else
-			echo -e "\n\nmax_connections=3000" >> /etc/mysql/mariadb.conf.d/50-server.cnf
-		fi
-		systemctl restart mariadb
-
-		curl -sSL https://packages.sury.org/php/README.txt | bash -x
-		apt-cache showpkg php
-
-		cmd="apt -y install php8.0-cli php8.0-curl php8.0-mysql php8.0-pgsql php8.0-mbstring php8.0-imagick php8.0-gd php8.0-xml php8.0-zip"
-		eval ${cmd} || die "$cmd"
-
-		cmd="apt -y install git"
-		eval ${cmd} || die "$cmd"
+		init()
 		
-		cd /root
-		git clone https://github.com/jxwdsb/xinwen.git
-		mv xinwen GitFiles
-
-		cmd="apt -y install screen"
-		eval ${cmd} || die "$cmd"
-
 		screen -R p1 -X quit
 		screen -dmS p1
 		screen -r p1 -p 0 -X stuff "php -S 0.0.0.0:8000 -t /root/GitFiles/other/phpmyadmin"
@@ -180,35 +180,7 @@ case $answer in
 	C | c | 3) echo
 		#apt -y purge php8.0-cli php8.0-curl php8.0-mysql php8.0-pgsql php8.0-mbstring php8.0-imagick php8.0-gd php8.0-xml php8.0-zip
 
-		cmd="apt -y install redis-server mariadb-server"
-		eval ${cmd} || die "$cmd"
-
-		mysqladmin -uroot -proot password "root"
-		FIND_FILE="/etc/mysql/mariadb.conf.d/50-server.cnf"
-		FIND_STR="max_connections="
-		if [ `grep -c "$FIND_STR" $FIND_FILE` -ne '0' ];then
-			echo "跳过设置"
-			#exit 0
-		else
-			echo -e "\n\nmax_connections=3000" >> /etc/mysql/mariadb.conf.d/50-server.cnf
-		fi
-		systemctl restart mariadb
-
-		curl -sSL https://packages.sury.org/php/README.txt | bash -x
-		apt-cache showpkg php
-
-		cmd="apt -y install php8.0-cli php8.0-curl php8.0-mysql php8.0-pgsql php8.0-mbstring php8.0-imagick php8.0-gd php8.0-xml php8.0-zip"
-		eval ${cmd} || die "$cmd"
-
-		cmd="apt -y install git"
-		eval ${cmd} || die "$cmd"
-		
-		cd /root
-		git clone https://github.com/jxwdsb/xinwen.git
-		mv xinwen GitFiles
-
-		cmd="apt -y install screen"
-		eval ${cmd} || die "$cmd"
+		init()
 
 		tag=`php /root/GitFiles/other/webman_init/other/phpmyadmin.php` && echo $tag
 		if [[ $tag -ne "noUp" ]]; then
