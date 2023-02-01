@@ -46,6 +46,10 @@ apt upgrade -y
 cmd="apt install -y curl wget"
 eval ${cmd} || die "$cmd"
 
+function name() {
+	
+}
+
 case $answer in
 	A | a | 1) echo
 		curl -sSL https://packages.sury.org/nginx/README.txt | bash -x
@@ -174,6 +178,8 @@ case $answer in
 		echo -e "\033[32mwebman			  :   http://${ip}:8787/ \033[0m"
 	exit;;
 	C | c | 3) echo
+		#apt -y purge php8.0-cli php8.0-curl php8.0-mysql php8.0-pgsql php8.0-mbstring php8.0-imagick php8.0-gd php8.0-xml php8.0-zip
+
 		cmd="apt -y install redis-server mariadb-server"
 		eval ${cmd} || die "$cmd"
 
@@ -193,8 +199,6 @@ case $answer in
 
 		cmd="apt -y install php8.0-cli php8.0-curl php8.0-mysql php8.0-pgsql php8.0-mbstring php8.0-imagick php8.0-gd php8.0-xml php8.0-zip"
 		eval ${cmd} || die "$cmd"
-
-		#apt -y purge php8.0-cli php8.0-curl php8.0-mysql php8.0-pgsql php8.0-mbstring php8.0-imagick php8.0-gd php8.0-xml php8.0-zip
 
 		cmd="apt -y install git"
 		eval ${cmd} || die "$cmd"
