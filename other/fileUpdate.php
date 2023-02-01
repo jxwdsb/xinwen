@@ -26,6 +26,7 @@ function fileShow($dir){//遍历目录下的所有文件和文件夹
 					//没有设置
 					$arr = array();
 					$arr['time'] = filemtime($f);
+					$arr['filesize'] = filesize($f);
 					$fileInfo[$f] = $arr;
 				} else {
 					if ($fileInfo[$f]['time'] != filemtime($f)) {
