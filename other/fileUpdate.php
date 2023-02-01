@@ -22,6 +22,7 @@ function fileShow($dir){//遍历目录下的所有文件和文件夹
 		if ($file !== '..' && $file !== '.'){
 			$f = $dir.'/'.$file;
 			if (is_file($f)){
+				//是文件
 				if (!isset($fileInfo[$f] )) {
 					//没有设置
 					$arr = array();
