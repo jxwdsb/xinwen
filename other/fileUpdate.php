@@ -53,6 +53,7 @@ function fileShow($dir){//遍历目录下的所有文件和文件夹
 			} else {
 				//是目录
 				$arr['filecount'] = system("ls -a -l {$dir} | wc -l;");
+				$fileInfo[$f] = $arr;
 				fileShow($f);
 			}
 		}
