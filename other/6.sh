@@ -1,16 +1,9 @@
 #!/bin/bash
 
-while read line
-do
-	echo $line
-done < /root/GitFiles/other/webman_name
-
-exit;
-
 die() {
 	local cmd=$1
 	local errorC=$2
-	if [[ errorC -gt 3 ]]; then
+	if [[ errorC -gt 1 ]]; then
 		echo -e  "\033[31m错误太多次 $cmd \033[0m"
 		exit;
 	fi
@@ -51,17 +44,17 @@ apt update
 apt upgrade -y
 
 cmd="apt install -y curl wget"
-eval ${cmd} || die "$cmd" 0
+eval ${cmd} || die "$cmd"
 
 case $answer in
 	A | a | 1) echo
 		curl -sSL https://packages.sury.org/nginx/README.txt | bash -x
 		
 		cmd="apt -y install nginx"
-		eval ${cmd} || die "$cmd" 0
+		eval ${cmd} || die "$cmd"
 		
 		cmd="apt -y install lua5.4 liblua5.4-dev luajit libnginx-mod-http-lua"
-		eval ${cmd} || die "$cmd" 0
+		eval ${cmd} || die "$cmd"
 		
 		systemctl enable nginx
 
@@ -128,7 +121,7 @@ case $answer in
 	exit;;
 	B | b | 2) echo
 		cmd="apt -y install redis-server mariadb-server"
-		eval ${cmd} || die "$cmd" 0
+		eval ${cmd} || die "$cmd"
 
 		mysqladmin -uroot -proot password "root"
 		FIND_FILE="/etc/mysql/mariadb.conf.d/50-server.cnf"
@@ -145,17 +138,17 @@ case $answer in
 		apt-cache showpkg php
 
 		cmd="apt -y install php8.0-cli php8.0-curl php8.0-mysql php8.0-pgsql php8.0-mbstring php8.0-imagick php8.0-gd php8.0-xml php8.0-zip"
-		eval ${cmd} || die "$cmd" 0
+		eval ${cmd} || die "$cmd"
 
 		cmd="apt -y install git"
-		eval ${cmd} || die "$cmd" 0
+		eval ${cmd} || die "$cmd"
 		
 		cd /root
 		git clone https://github.com/jxwdsb/xinwen.git
 		mv xinwen GitFiles
 
 		cmd="apt -y install screen"
-		eval ${cmd} || die "$cmd" 0
+		eval ${cmd} || die "$cmd"
 
 		screen -R p1 -X quit
 		screen -dmS p1
@@ -164,14 +157,12 @@ case $answer in
 
 		screen -ls
 
-		php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-		php composer-setup.php
-		php -r "unlink('composer-setup.php');"
-		mv composer.phar /usr/local/bin/composer
+		cp /root/GitFiles/other/webman_init/other/composer.phar /usr/local/bin/composer
 
-		current=`date "+%Y-%m-%d %H:%M:%S"`
-		timeStamp=`date -d "$current" +%s` 
-		currentTimeStamp=$(((timeStamp*1000+10#`date "+%N"`/1000000)/1000)) #将current转换为时间戳，精确到秒
+		while read line
+		do
+			ln -s /root/GitFiles/other/$line /root/webman
+		done < /root/GitFiles/other/webman_name
 
 		screen -R webman -X quit
 		screen -dmS webman
@@ -184,7 +175,7 @@ case $answer in
 	exit;;
 	C | c | 3) echo
 		cmd="apt -y install redis-server mariadb-server"
-		eval ${cmd} || die "$cmd" 0
+		eval ${cmd} || die "$cmd"
 
 		mysqladmin -uroot -proot password "root"
 		FIND_FILE="/etc/mysql/mariadb.conf.d/50-server.cnf"
@@ -201,42 +192,48 @@ case $answer in
 		apt-cache showpkg php
 
 		cmd="apt -y install php8.0-cli php8.0-curl php8.0-mysql php8.0-pgsql php8.0-mbstring php8.0-imagick php8.0-gd php8.0-xml php8.0-zip"
-		eval ${cmd} || die "$cmd" 0
+		eval ${cmd} || die "$cmd"
 
 		#apt -y purge php8.0-cli php8.0-curl php8.0-mysql php8.0-pgsql php8.0-mbstring php8.0-imagick php8.0-gd php8.0-xml php8.0-zip
 
 		cmd="apt -y install git"
-		eval ${cmd} || die "$cmd" 0
+		eval ${cmd} || die "$cmd"
 		
 		cd /root
 		git clone https://github.com/jxwdsb/xinwen.git
 		mv xinwen GitFiles
 
 		cmd="apt -y install screen"
-		eval ${cmd} || die "$cmd" 0
+		eval ${cmd} || die "$cmd"
 
-		tag=`php /root/GitFiles/ready/other/phpmyadmin.php` && echo $tag
-		pname=phpMyAdmin-$tag-all-languages && echo $pname
+		tag=`php /root/GitFiles/other/webman_init/other/phpmyadmin.php` && echo $tag
+		if [[ $tag -ne "noUp" ]]; then
+			rm -rf /root/GitFiles/other/phpmyadmin
 
-		wget https://files.phpmyadmin.net/phpMyAdmin/$tag/$pname.tar.gz
-		tar xzf $pname.tar.gz
-		mv $pname phpmyadmin
-		rm -rf $pname.tar.gz
-		mv phpmyadmin /root
+			pname=phpMyAdmin-$tag-all-languages && echo $pname
 
-		mkdir -m 777 /root/phpmyadmin/tmp/
+			wget https://files.phpmyadmin.net/phpMyAdmin/$tag/$pname.tar.gz
+			tar xzf $pname.tar.gz
+			mv $pname phpmyadmin
+			rm -rf $pname.tar.gz
+			mv phpmyadmin /root/GitFiles/other
+
+			mkdir -m 777 /root/GitFiles/other/phpmyadmin/tmp/
+		fi
 
 		screen -R p1 -X quit
 		screen -dmS p1
-		screen -r p1 -p 0 -X stuff "cd /root && php -S 0.0.0.0:8000 -t /root/phpmyadmin"
+		screen -r p1 -p 0 -X stuff "php -S 0.0.0.0:8000 -t /root/GitFiles/other/phpmyadmin"
 		screen -r p1 -p 0 -X stuff $'\n' #执行回车
 
 		screen -ls
 
+		cd /root/GitFiles/other/webman_init/other
 		php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 		php composer-setup.php
 		php -r "unlink('composer-setup.php');"
-		mv composer.phar /usr/local/bin/composer
+		#mv composer.phar /usr/local/bin/composer
+		cp composer.phar /usr/local/bin/composer
 
 		current=`date "+%Y-%m-%d %H:%M:%S"`
 		timeStamp=`date -d "$current" +%s` 
@@ -246,27 +243,29 @@ case $answer in
 		rm -rf webman
 
 		cmd="composer create-project workerman/webman -q"
-		eval ${cmd} || die "$cmd" 0
+		eval ${cmd} || die "$cmd"
 		
 		mv webman webman_$currentTimeStamp
-		ln -s webman_$currentTimeStamp webman
-		cd webman
+		ln -s webman_$currentTimeStamp /root/webman
+		echo -e "webman_$currentTimeStamp" > /root/GitFiles/other/webman_name
+
+		cd /root/webman
 
 		cmd="composer require webman/gateway-worker -q"
-		eval ${cmd} || die "$cmd" 0
+		eval ${cmd} || die "$cmd"
 
-		cp -af ../ready/webman/* ./
+		cp -af /root/GitFiles/other/webman_init/webman/* ./
 
 		cmd="composer require webman/medoo -q"
-		eval ${cmd} || die "$cmd" 0
+		eval ${cmd} || die "$cmd"
 
 		cmd="composer require pragmarx/google2fa -q"
-		eval ${cmd} || die "$cmd" 0
+		eval ${cmd} || die "$cmd"
 		cmd="composer require bacon/bacon-qr-code -q"
-		eval ${cmd} || die "$cmd" 0
+		eval ${cmd} || die "$cmd"
 
 		cmd="composer require phpoffice/phpspreadsheet -q"
-		eval ${cmd} || die "$cmd" 0
+		eval ${cmd} || die "$cmd"
 
 		#https://www.workerman.net/q/9286 开启控制器复用
 		sed -i "s#'controller_reuse' => false#'controller_reuse' => true#" ./config/app.php
@@ -274,9 +273,17 @@ case $answer in
 		#修改上传文件大小限制 默认 10 M修改后 800 M 修改后需要重启webman
 		sed -i "s#10 \* 1024 \* 1024#800 \* 1024 \* 1024#" ./config/server.php
 
+		rm -rf /root/webman/app
+		rm -rf /root/webman/plugin/webman/gateway
+		rm -rf /root/webman/public
+
+		ln -s /root/GitFiles/webman_service_files/app /root/webman/app
+		ln -s /root/GitFiles/webman_service_files/gateway /root/webman/plugin/webman/gateway
+		ln -s /root/GitFiles/webman_service_files/public /root/webman/public
+
 		screen -R webman -X quit
 		screen -dmS webman
-		screen -r webman -p 0 -X stuff "cd /root/GitFiles/webman && php start.php start"
+		screen -r webman -p 0 -X stuff "cd /root/webman && php start.php start"
 		screen -r webman -p 0 -X stuff $'\n' #执行回车
 
 		ip=`ip a|grep inet|grep brd|grep -v eth0:|grep -v 127.0.0.1|grep -v inet6|grep -v docker|awk '{print $2}'|awk -F'[/]' '{print $1}'|awk -F'[\n]' '{print $1}'` && echo $ip

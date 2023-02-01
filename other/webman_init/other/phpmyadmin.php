@@ -1,9 +1,25 @@
 <?php
+
 $vs = http_get('https://api.github.com/repos/phpmyadmin/phpmyadmin/tags?page=1&per_page=1');
 $va = json_decode($vs, true);
 $v = str_replace('RELEASE_','',$va[0]['name']);
 $v = str_replace('_','.',$v);
-echo $v;
+
+$file_name = '/root/GitFiles/other/phpmyadmin/package.json';
+if (file_exists($file_name)) {
+	if (json_decode(file_get_contents($file_name), true)['version'] != $v) {
+		echo $v;
+		/*
+		if(file_put_contents($file_name,file_get_contents($url))) {
+			echo "文件下载成功";
+		} else {
+			echo "文件下载失败";
+		}
+		*/
+	} else {
+		echo 'noUp';
+	}
+}
 
 function http_get($url, $header = [], $proxy = [])
 {
