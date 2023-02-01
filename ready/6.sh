@@ -117,6 +117,20 @@ case $answer in
 
 	exit;;
 	N | n) echo
+		cmd="apt -y install redis-server mariadb-server"
+		eval ${cmd} || die "$cmd" 0
+
+		mysqladmin -uroot -proot password "root"
+		FIND_FILE="/etc/mysql/mariadb.conf.d/50-server.cnf"
+		FIND_STR="max_connections="
+		if [ `grep -c "$FIND_STR" $FIND_FILE` -ne '0' ];then
+			echo "跳过设置"
+			#exit 0
+		else
+			echo -e "\n\nmax_connections=3000" >> /etc/mysql/mariadb.conf.d/50-server.cnf
+		fi
+		systemctl restart mariadb
+
 		curl -sSL https://packages.sury.org/php/README.txt | bash -x
 		apt-cache showpkg php
 
