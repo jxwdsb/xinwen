@@ -207,7 +207,7 @@ case $answer in
 		screen -ls
 
 		cd /root/GitFiles/other/webman_init/other
-		newV=php -r "if (hash_file('sha256', 'composer.phar') === file_get_contents('https://getcomposer.org/download/latest-stable/composer.phar.sha256')) { echo 'noUp'; } else { echo 'haveUp';} echo PHP_EOL;"
+		newV=`php -r "if (file_exists('composer.phar') && hash_file('sha256', 'composer.phar') === file_get_contents('https://getcomposer.org/download/latest-stable/composer.phar.sha256')) { echo 'noUp'; } else { echo 'haveUp';} echo PHP_EOL;"`
 		if [[ $newV -ne "noUp" ]]; then
 			php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 			php composer-setup.php
@@ -219,14 +219,14 @@ case $answer in
 		timeStamp=`date -d "$current" +%s` 
 		currentTimeStamp=$(((timeStamp*1000+10#`date "+%N"`/1000000)/1000)) #将current转换为时间戳，精确到秒
 
-		cd GitFiles
-		rm -rf webman
+		cd /root/GitFiles
 
 		cmd="composer create-project workerman/webman -q"
 		eval ${cmd} || die "$cmd"
 		
 		mv webman webman_$currentTimeStamp
-		ln -s webman_$currentTimeStamp /root/webman
+		rm -rf /root/webman
+		ln -s /root/GitFiles/webman_$currentTimeStamp /root/webman
 		echo -e "webman_$currentTimeStamp" > /root/GitFiles/other/webman_name
 
 		cd /root/webman
