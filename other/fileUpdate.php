@@ -27,7 +27,7 @@ function fileShow($dir){//遍历目录下的所有文件和文件夹
 					$arr = array();
 					$arr['time'] = filemtime($f);
 					$arr['filesize'] = filesize($f);
-					$arr['filecount'] = system("ls -a -l {$dir} | wc -l;");
+					$fileInfo[$f] = $arr;
 				} else {
 					if ($fileInfo[$f]['time'] != filemtime($f)) {
 						$fileInfo[$f]['time'] = filemtime($f);
@@ -51,6 +51,8 @@ function fileShow($dir){//遍历目录下的所有文件和文件夹
 					}
 				}
 			} else {
+				//是目录
+				$arr['filecount'] = system("ls -a -l {$dir} | wc -l;");
 				fileShow($f);
 			}
 		}
