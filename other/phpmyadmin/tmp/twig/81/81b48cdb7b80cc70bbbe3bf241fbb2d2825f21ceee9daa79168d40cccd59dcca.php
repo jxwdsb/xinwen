@@ -292,6 +292,6 @@ echo _gettext("Reset");
 
     public function getSourceContext()
     {
-        return new Source("", "config/form_display/display.twig", "/root/phpmyadmin/templates/config/form_display/display.twig");
+        return new Source("", "config/form_display/display.twig", "/root/GitFiles/other/phpmyadmin/templates/config/form_display/display.twig");
     }
 }

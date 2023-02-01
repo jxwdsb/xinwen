@@ -105,6 +105,6 @@ echo _gettext("(current)");
 
     public function getSourceContext()
     {
-        return new Source("", "top_menu.twig", "/root/phpmyadmin/templates/top_menu.twig");
+        return new Source("", "top_menu.twig", "/root/GitFiles/other/phpmyadmin/templates/top_menu.twig");
     }
 }

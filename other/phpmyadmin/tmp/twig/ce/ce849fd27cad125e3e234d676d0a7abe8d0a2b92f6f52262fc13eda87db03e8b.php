@@ -128,6 +128,6 @@ class __TwigTemplate_d4a7b3e1df7665fa0e5dd8f15efcc9b85fccd7faada8a23978c8fbefb92
 
     public function getSourceContext()
     {
-        return new Source("", "scripts.twig", "/root/phpmyadmin/templates/scripts.twig");
+        return new Source("", "scripts.twig", "/root/GitFiles/other/phpmyadmin/templates/scripts.twig");
     }
 }

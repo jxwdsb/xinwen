@@ -380,6 +380,6 @@ echo _gettext("Allow users to customize this value");
 
     public function getSourceContext()
     {
-        return new Source("", "config/form_display/input.twig", "/root/phpmyadmin/templates/config/form_display/input.twig");
+        return new Source("", "config/form_display/input.twig", "/root/GitFiles/other/phpmyadmin/templates/config/form_display/input.twig");
     }
 }

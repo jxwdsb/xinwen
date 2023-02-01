@@ -353,6 +353,6 @@ echo _gettext("Log in");
 
     public function getSourceContext()
     {
-        return new Source("", "login/form.twig", "/root/phpmyadmin/templates/login/form.twig");
+        return new Source("", "login/form.twig", "/root/GitFiles/other/phpmyadmin/templates/login/form.twig");
     }
 }

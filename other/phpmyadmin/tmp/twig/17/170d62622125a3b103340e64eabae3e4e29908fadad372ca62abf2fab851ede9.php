@@ -87,6 +87,6 @@ echo _gettext("Delete settings");
 
     public function getSourceContext()
     {
-        return new Source("", "preferences/autoload.twig", "/root/phpmyadmin/templates/preferences/autoload.twig");
+        return new Source("", "preferences/autoload.twig", "/root/GitFiles/other/phpmyadmin/templates/preferences/autoload.twig");
     }
 }

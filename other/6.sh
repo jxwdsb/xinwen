@@ -28,11 +28,13 @@ fi
 echo "1.HOME 设置"
 echo "2.同步文件"
 echo "3.同步文件 并获取最新"
-read -n1 -p "是否为HOME [Y/N]?" answer
+read -n1 -p "请选择:" answer
 case $answer in
-	Y | y) echo
+	A | a | 1) echo
 		echo -e "\033[32mcontinue \033[0m";;
-	N | n) echo
+	B | b | 2) echo
+		echo -e "\033[32mcontinue \033[0m";;
+	C | c | 3) echo
 		echo -e "\033[32mcontinue \033[0m";;
 	*) echo
 		echo -e  "\033[31mgoodbye \033[0m"
@@ -152,7 +154,7 @@ case $answer in
 
 	exit;;
 	B | b | 2) echo
-		init()
+		init
 
 		screen -R p1 -X quit
 		screen -dmS p1
@@ -180,7 +182,7 @@ case $answer in
 	C | c | 3) echo
 		#apt -y purge php8.0-cli php8.0-curl php8.0-mysql php8.0-pgsql php8.0-mbstring php8.0-imagick php8.0-gd php8.0-xml php8.0-zip
 
-		init()
+		init
 
 		tag=`php /root/GitFiles/other/webman_init/other/phpmyadmin.php` && echo $tag
 		if [[ $tag -ne "noUp" ]]; then

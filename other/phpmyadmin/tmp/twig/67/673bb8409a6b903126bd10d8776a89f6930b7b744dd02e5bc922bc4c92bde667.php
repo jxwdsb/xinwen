@@ -274,6 +274,6 @@ echo _gettext("SQL upload");
 
     public function getSourceContext()
     {
-        return new Source("", "navigation/main.twig", "/root/phpmyadmin/templates/navigation/main.twig");
+        return new Source("", "navigation/main.twig", "/root/GitFiles/other/phpmyadmin/templates/navigation/main.twig");
     }
 }

@@ -83,6 +83,6 @@ class __TwigTemplate_d273f249e297889ebf27e718c2ea0c41c21e4c96559aaf2a1963bdc8b8a
 
     public function getSourceContext()
     {
-        return new Source("", "navigation/tree/state.twig", "/root/phpmyadmin/templates/navigation/tree/state.twig");
+        return new Source("", "navigation/tree/state.twig", "/root/GitFiles/other/phpmyadmin/templates/navigation/tree/state.twig");
     }
 }

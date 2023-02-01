@@ -698,6 +698,6 @@ echo _gettext("Get more themes!");
 
     public function getSourceContext()
     {
-        return new Source("", "home/index.twig", "/root/phpmyadmin/templates/home/index.twig");
+        return new Source("", "home/index.twig", "/root/GitFiles/other/phpmyadmin/templates/home/index.twig");
     }
 }

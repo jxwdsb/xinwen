@@ -68,6 +68,6 @@ class __TwigTemplate_99e23315cecab20f8e6633d29a814f0b7a6f3ee825a9d988a225a2045b6
 
     public function getSourceContext()
     {
-        return new Source("", "navigation/tree/controls.twig", "/root/phpmyadmin/templates/navigation/tree/controls.twig");
+        return new Source("", "navigation/tree/controls.twig", "/root/GitFiles/other/phpmyadmin/templates/navigation/tree/controls.twig");
     }
 }

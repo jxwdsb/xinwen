@@ -68,6 +68,6 @@ class __TwigTemplate_569476247e8c19f5113e4661b7d23b3da255a68df76eb601320d779df0e
 
     public function getSourceContext()
     {
-        return new Source("", "navigation/tree/quick_warp.twig", "/root/phpmyadmin/templates/navigation/tree/quick_warp.twig");
+        return new Source("", "navigation/tree/quick_warp.twig", "/root/GitFiles/other/phpmyadmin/templates/navigation/tree/quick_warp.twig");
     }
 }
