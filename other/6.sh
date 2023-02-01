@@ -199,7 +199,7 @@ case $answer in
 			mv phpmyadmin /root/GitFiles/other
 
 			mkdir -m 777 /root/GitFiles/other/phpmyadmin/tmp
-			cp /root/GitFiles/other/phpmyadmin /root/phpmyadmin
+			cp -rf /root/GitFiles/other/phpmyadmin /root/phpmyadmin
 		fi
 
 		screen -R p1 -X quit
