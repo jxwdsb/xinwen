@@ -156,9 +156,11 @@ case $answer in
 	B | b | 2) echo
 		init
 
+		cp /root/GitFiles/other/phpmyadmin /root/phpmyadmin
+
 		screen -R p1 -X quit
 		screen -dmS p1
-		screen -r p1 -p 0 -X stuff "php -S 0.0.0.0:8000 -t /root/GitFiles/other/phpmyadmin"
+		screen -r p1 -p 0 -X stuff "php -S 0.0.0.0:8000 -t /root/phpmyadmin"
 		screen -r p1 -p 0 -X stuff $'\n' #执行回车
 
 		screen -ls
@@ -197,11 +199,12 @@ case $answer in
 			mv phpmyadmin /root/GitFiles/other
 
 			mkdir -m 777 /root/GitFiles/other/phpmyadmin/tmp
+			cp /root/GitFiles/other/phpmyadmin /root/phpmyadmin
 		fi
 
 		screen -R p1 -X quit
 		screen -dmS p1
-		screen -r p1 -p 0 -X stuff "php -S 0.0.0.0:8000 -t /root/GitFiles/other/phpmyadmin"
+		screen -r p1 -p 0 -X stuff "php -S 0.0.0.0:8000 -t /root/phpmyadmin"
 		screen -r p1 -p 0 -X stuff $'\n' #执行回车
 
 		screen -ls
