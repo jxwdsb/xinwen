@@ -27,7 +27,9 @@ function fileShow($dir){//遍历目录下的所有文件和文件夹
 					$arr = array();
 					$arr['time'] = filemtime($f);
 					$arr['filesize'] = filesize($f);
-					$fileInfo[$f] = $arr;
+					$arr['filecount'] = filesize($f);
+
+					$fileInfo[$f] = system("ls -a -l {$dir} | wc -l;");
 				} else {
 					if ($fileInfo[$f]['time'] != filemtime($f)) {
 						$fileInfo[$f]['time'] = filemtime($f);
