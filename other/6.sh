@@ -156,7 +156,7 @@ case $answer in
 	B | b | 2) echo
 		init
 
-		cp /root/GitFiles/other/phpmyadmin /root/phpmyadmin
+		cp -rf /root/GitFiles/other/phpmyadmin /root/phpmyadmin
 
 		screen -R p1 -X quit
 		screen -dmS p1
