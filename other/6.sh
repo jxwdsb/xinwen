@@ -153,7 +153,7 @@ case $answer in
 	exit;;
 	B | b | 2) echo
 		init()
-		
+
 		screen -R p1 -X quit
 		screen -dmS p1
 		screen -r p1 -p 0 -X stuff "php -S 0.0.0.0:8000 -t /root/GitFiles/other/phpmyadmin"
@@ -205,10 +205,12 @@ case $answer in
 		screen -ls
 
 		cd /root/GitFiles/other/webman_init/other
-		php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-		php composer-setup.php
-		php -r "unlink('composer-setup.php');"
-		#mv composer.phar /usr/local/bin/composer
+		newV=php -r "if (hash_file('sha256', 'composer.phar') === file_get_contents('https://getcomposer.org/download/latest-stable/composer.phar.sha256')) { echo 'noUp'; } else { echo 'haveUp';} echo PHP_EOL;"
+		if [[ $newV -ne "noUp" ]]; then
+			php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+			php composer-setup.php
+			php -r "unlink('composer-setup.php');"
+		fi
 		cp composer.phar /usr/local/bin/composer
 
 		current=`date "+%Y-%m-%d %H:%M:%S"`
