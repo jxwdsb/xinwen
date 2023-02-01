@@ -156,6 +156,10 @@ case $answer in
 	B | b | 2) echo
 		init
 
+		mkdir -m 777 /tmp/phpmyadmin_tmp/
+		rm -rf /root/GitFiles/other/phpmyadmin/tmp
+		ln -s /tmp/phpmyadmin_tmp/ /root/GitFiles/other/phpmyadmin/tmp
+
 		screen -R p1 -X quit
 		screen -dmS p1
 		screen -r p1 -p 0 -X stuff "php -S 0.0.0.0:8000 -t /root/GitFiles/other/phpmyadmin"
@@ -196,8 +200,8 @@ case $answer in
 			rm -rf $pname.tar.gz
 			mv phpmyadmin /root/GitFiles/other
 
-			mkdir -m 777 /tmp/phpmyadmin/tmp/
-			ln -s /tmp/phpmyadmin/tmp/ /root/GitFiles/other/phpmyadmin/tmp/
+			mkdir -m 777 /tmp/phpmyadmin_tmp/
+			ln -s /tmp/phpmyadmin_tmp/ /root/GitFiles/other/phpmyadmin/tmp
 		fi
 
 		screen -R p1 -X quit
