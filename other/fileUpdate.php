@@ -31,6 +31,7 @@ function fileShow($dir){//遍历目录下的所有文件和文件夹
 				} else {
 					if ($fileInfo[$f]['time'] != filemtime($f)) {
 						$fileInfo[$f]['time'] = filemtime($f);
+						$fileInfo[$f]['filesize'] = filesize($f);
 						if (strpos($f, '/.') !== false && is_dir($f)) {
 							//是隐藏目录 跳过
 						} else if (strpos($f, '/root/GitFiles/.') !== false) {
