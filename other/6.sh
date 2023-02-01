@@ -1,5 +1,12 @@
 #!/bin/bash
 
+while read line
+do
+	echo $line
+done < /root/GitFiles/other/webman_name
+
+exit;
+
 die() {
 	local cmd=$1
 	local errorC=$2
