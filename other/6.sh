@@ -219,14 +219,14 @@ case $answer in
 		timeStamp=`date -d "$current" +%s` 
 		currentTimeStamp=$(((timeStamp*1000+10#`date "+%N"`/1000000)/1000)) #将current转换为时间戳，精确到秒
 
-		cd /root/GitFiles
+		cd /root/GitFiles/other
 
 		cmd="composer create-project workerman/webman -q"
 		eval ${cmd} || die "$cmd"
 		
 		mv webman webman_$currentTimeStamp
 		rm -rf /root/webman
-		ln -s /root/GitFiles/webman_$currentTimeStamp /root/webman
+		ln -s /root/GitFiles/other/webman_$currentTimeStamp /root/webman
 		echo -e "webman_$currentTimeStamp" > /root/GitFiles/other/webman_name
 
 		cd /root/webman
