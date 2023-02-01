@@ -30,6 +30,8 @@ function fileShow($dir){//遍历目录下的所有文件和文件夹
 				} else {
 					if ($fileInfo[$f]['time'] != filemtime($f)) {
 						$fileInfo[$f]['time'] = filemtime($f);
+						if (strpos($f, '/.') !== false && is_dir($f)) {
+							//是隐藏目录 跳过
 						if (strpos($f, '/root/GitFiles/.') !== false) {
 							//是隐藏文件 跳过
 						} else if (strpos($f, '/runtime/') !== false) {
