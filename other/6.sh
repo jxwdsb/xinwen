@@ -196,7 +196,8 @@ case $answer in
 			rm -rf $pname.tar.gz
 			mv phpmyadmin /root/GitFiles/other
 
-			mkdir -m 777 /root/GitFiles/other/phpmyadmin/tmp/
+			mkdir -m 777 /tmp/phpmyadmin/tmp/
+			ln -s /tmp/phpmyadmin/tmp/ /root/GitFiles/other/phpmyadmin/tmp/
 		fi
 
 		screen -R p1 -X quit
