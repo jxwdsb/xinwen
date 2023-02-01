@@ -52,8 +52,18 @@ function fileShow($dir){//遍历目录下的所有文件和文件夹
 				}
 			} else {
 				//是目录
-				$arr['filecount'] = system("ls -a -l {$dir} | wc -l;");
-				$fileInfo[$f] = $arr;
+				if (!isset($fileInfo[$dir])) {
+					$fileInfo[$dir] = [
+						'filecount' => system("ls -a -l {$dir} | wc -l;"),
+					];
+				} else {
+					$filecount = system("ls -a -l {$dir} | wc -l;");
+					if ($fileInfo[$dir]['filecount'] !== $filecount) {
+						$fileInfo[$dir]['filecount'] = $filecount;
+						echo "Git Upload Dir {$f} \n";
+						GitUpload();
+					}
+				}
 				fileShow($f);
 			}
 		}
