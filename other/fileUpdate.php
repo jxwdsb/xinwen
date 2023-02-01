@@ -41,11 +41,9 @@ function fileShow($dir){//遍历目录下的所有文件和文件夹
 							echo "reload {$f} \n";
 							system("cd /root/webman && php start.php reload");
 						} else {
-							if (filesize($f) !== 0 || $fileInfo[$f]['filesize'] !== 0) {
-								echo "Git Upload {$f} \n";
-								#必须得更新一次 记住github token
-								GitUpload();
-							}
+							echo "Git Upload {$f} \n";
+							#必须得更新一次 记住github token
+							GitUpload();
 						}
 						$fileInfo[$f]['filesize'] = filesize($f);
 					}
