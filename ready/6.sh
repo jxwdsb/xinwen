@@ -1,5 +1,17 @@
 #!/bin/bash
 
+die() {
+	local cmd=$1
+	local errorC=$2
+	if [[ errorC -gt 3 ]]; then
+		echo -e  "\033[31m错误太多次 $cmd \033[0m"
+		exit;
+	fi
+	errorC=$(($errorC+1))
+	eval ${cmd} || die "$cmd" $errorC
+	exit 1
+}
+
 if [[ $EUID -ne 0 ]]; then
 	echo "权限需要提升:该安装程序必须由root或sudo执行" 1>&2
 	exit 1
@@ -27,12 +39,20 @@ esac
 cd /root
 apt update
 apt upgrade -y
-apt install -y curl wget
+
+cmd="apt install -y curl wget"
+eval ${cmd} || die "$cmd" 0
+
 case $answer in
 	Y | y) echo
 		curl -sSL https://packages.sury.org/nginx/README.txt | bash -x
-		apt -y install nginx
-		apt -y install lua5.4 liblua5.4-dev luajit libnginx-mod-http-lua
+		
+		cmd="apt -y install nginx"
+		eval ${cmd} || die "$cmd" 0
+		
+		cmd="apt -y install lua5.4 liblua5.4-dev luajit libnginx-mod-http-lua"
+		eval ${cmd} || die "$cmd" 0
+		
 		systemctl enable nginx
 
 		ip=`ip a|grep inet|grep brd|grep -v eth0:|grep -v 127.0.0.1|grep -v inet6|grep -v docker|awk '{print $2}'|awk -F'[/]' '{print $1}'|awk -F'[\n]' '{print $1}'` && echo $ip
@@ -90,24 +110,30 @@ case $answer in
 			--restart=always \
 			-t analogic/poste.io
 
-		echo -e "\033[32mposte mailserver    :   http://${domainName}:880/ \033[0m"
-		echo -e "\033[32mhoppscotch          :   http://${domainName}:3000/ \033[0m"
-		echo -e "\033[32mariang              :   http://${domainName}:6880/ \033[0m"
+		echo -e "\033[32mposte mailserver	:   http://${domainName}:880/ \033[0m"
+		echo -e "\033[32mhoppscotch		  :   http://${domainName}:3000/ \033[0m"
+		echo -e "\033[32mariang			  :   http://${domainName}:6880/ \033[0m"
 		echo -e "\033[32maria download route :   /root/aria2-downloads \033[0m"
 
 	exit;;
 	N | n) echo
 		curl -sSL https://packages.sury.org/php/README.txt | bash -x
 		apt-cache showpkg php
-		apt -y install php8.0-cli php8.0-curl php8.0-mysql php8.0-pgsql php8.0-mbstring php8.0-imagick php8.0-gd php8.0-xml php8.0-zip
+
+		cmd="apt -y install php8.0-cli php8.0-curl php8.0-mysql php8.0-pgsql php8.0-mbstring php8.0-imagick php8.0-gd php8.0-xml php8.0-zip"
+		eval ${cmd} || die "$cmd" 0
+
 		#apt -y purge php8.0-cli php8.0-curl php8.0-mysql php8.0-pgsql php8.0-mbstring php8.0-imagick php8.0-gd php8.0-xml php8.0-zip
 
-		apt -y install git
+		cmd="apt -y install git"
+		eval ${cmd} || die "$cmd" 0
+		
 		cd /root
 		git clone https://github.com/jxwdsb/xinwen.git
 		mv xinwen GitFiles
 
-		apt -y install git screen
+		cmd="apt -y install screen"
+		eval ${cmd} || die "$cmd" 0
 
 		tag=`php /root/GitFiles/ready/other/phpmyadmin.php` && echo $tag
 		pname=phpMyAdmin-$tag-all-languages && echo $pname
@@ -139,20 +165,28 @@ case $answer in
 		cd GitFiles
 		rm -rf webman
 
-		composer create-project workerman/webman -q
+		cmd="composer create-project workerman/webman -q"
+		eval ${cmd} || die "$cmd" 0
+		
 		mv webman webman_$currentTimeStamp
 		ln -s webman_$currentTimeStamp webman
 		cd webman
-		composer require webman/gateway-worker -q
+
+		cmd="composer require webman/gateway-worker -q"
+		eval ${cmd} || die "$cmd" 0
 
 		cp -af ../ready/webman/* ./
 
-		composer require webman/medoo -q
+		cmd="composer require webman/medoo -q"
+		eval ${cmd} || die "$cmd" 0
 
-		composer require pragmarx/google2fa -q
-		composer require bacon/bacon-qr-code -q
+		cmd="composer require pragmarx/google2fa -q"
+		eval ${cmd} || die "$cmd" 0
+		cmd="composer require bacon/bacon-qr-code -q"
+		eval ${cmd} || die "$cmd" 0
 
-		composer require phpoffice/phpspreadsheet -q
+		cmd="composer require phpoffice/phpspreadsheet -q"
+		eval ${cmd} || die "$cmd" 0
 
 		#https://www.workerman.net/q/9286 开启控制器复用
 		sed -i "s#'controller_reuse' => false#'controller_reuse' => true#" ./config/app.php
@@ -166,8 +200,8 @@ case $answer in
 		screen -r webman -p 0 -X stuff $'\n' #执行回车
 
 		ip=`ip a|grep inet|grep brd|grep -v eth0:|grep -v 127.0.0.1|grep -v inet6|grep -v docker|awk '{print $2}'|awk -F'[/]' '{print $1}'|awk -F'[\n]' '{print $1}'` && echo $ip
-		echo -e "\033[32mphpmyadmin          :   http://${ip}:8000/ \033[0m"
-		echo -e "\033[32mwebman              :   http://${ip}:8787/ \033[0m"
+		echo -e "\033[32mphpmyadmin		  :   http://${ip}:8000/ \033[0m"
+		echo -e "\033[32mwebman			  :   http://${ip}:8787/ \033[0m"
 
 	exit;;
 esac
