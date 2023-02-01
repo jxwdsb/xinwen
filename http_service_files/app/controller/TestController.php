@@ -16,4 +16,9 @@ class TestController
 	{
 		return json(['code' => 0, 'msg' => 'ok']);
 	}
+
+	public function sms_send(Request $request)
+	{
+		return json(['code' => 0, 'msg' => 'ok']);
+	}
 }
