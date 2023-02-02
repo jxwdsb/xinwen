@@ -42,16 +42,15 @@ case $answer in
 esac
 
 cd /root
+apt update
+apt upgrade -y
 
 errorC=0
 while [[ `type -t curl` == "" ]]; do
-	echo -e  "\033[31m 安装 curl \033[0m"
 	if [[ errorC -gt 1 ]]; then
-		echo -e  "\033[31m 安装docker 错误太多次 \033[0m"
+		echo -e  "\033[31m 安装 curl 错误太多次 \033[0m"
 		exit;
 	fi
-	apt update
-	apt upgrade -y
 	cmd="apt install -y curl wget"
 	eval ${cmd} || die "$cmd"
 	errorC=$(($errorC+1))
