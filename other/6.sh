@@ -95,7 +95,7 @@ case $answer in
 		ip=`ip a|grep inet|grep brd|grep -v eth0:|grep -v 127.0.0.1|grep -v inet6|grep -v docker|awk '{print $2}'|awk -F'[/]' '{print $1}'|awk -F'[\n]' '{print $1}'` && echo $ip
 
 		errorC=0
-		while [[ `type -t docker` == "" ]]; do
+		while [[ `type -t nginx` == "" ]]; do
 			if [[ errorC -gt 1 ]]; then
 				echo -e  "\033[31m 安装 nginx 错误太多次 \033[0m"
 				exit;
