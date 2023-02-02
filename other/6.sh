@@ -100,6 +100,7 @@ case $answer in
 				echo -e  "\033[31m 安装 nginx 错误太多次 \033[0m"
 				exit;
 			fi
+			errorC=$(($errorC+1))
 
 			curl -sSL https://packages.sury.org/nginx/README.txt | bash -x
 			
@@ -108,8 +109,6 @@ case $answer in
 			
 			cmd="apt -y install lua5.4 liblua5.4-dev luajit libnginx-mod-http-lua"
 			eval ${cmd} || die "$cmd"
-			
-			systemctl enable nginx
 
 			domainName=$ip
 			mkdir -m 777 /var/www/$domainName
@@ -119,9 +118,8 @@ case $answer in
 			#配置 nginx运行用户 www-data 改成 root  用于支持软链接
 			sed -i "s?user www-data;?user root;#user www-data;?g" /etc/nginx/nginx.conf
 
+			systemctl enable nginx
 			systemctl restart nginx
-
-			errorC=$(($errorC+1))
 		done
 
 		errorC=0
@@ -130,8 +128,9 @@ case $answer in
 				echo -e  "\033[31m 安装 docker 错误太多次 \033[0m"
 				exit;
 			fi
-			curl -sSL https://get.docker.com/ | sh
 			errorC=$(($errorC+1))
+
+			curl -sSL https://get.docker.com/ | sh
 		done
 
 		errorC=0
@@ -140,8 +139,9 @@ case $answer in
 				echo -e  "\033[31m docker hoppscotch 错误太多次 \033[0m"
 				exit;
 			fi
-			docker run --rm --name hoppscotch -d -p 3000:3000 hoppscotch/hoppscotch:latest
 			errorC=$(($errorC+1))
+
+			docker run --rm --name hoppscotch -d -p 3000:3000 hoppscotch/hoppscotch:latest
 		done
 
 		errorC=0
@@ -150,6 +150,8 @@ case $answer in
 				echo -e  "\033[31m docker aria2-pro 错误太多次 \033[0m"
 				exit;
 			fi
+			errorC=$(($errorC+1))
+
 			docker run -d \
 				--name aria2-pro \
 				--restart unless-stopped \
@@ -169,8 +171,6 @@ case $answer in
 
 			rm /var/www/${ip}/aria2-downloads
 			ln -s /root/aria2-downloads /var/www/${ip}/aria2-downloads
-
-			errorC=$(($errorC+1))
 		done
 
 		errorC=0
@@ -179,14 +179,14 @@ case $answer in
 				echo -e  "\033[31m docker ariang 错误太多次 \033[0m"
 				exit;
 			fi
+			errorC=$(($errorC+1))
+
 			docker run -d \
 				--name ariang \
 				--log-opt max-size=1m \
 				--restart unless-stopped \
 				-p 6880:6880 \
 				p3terx/ariang
-
-			errorC=$(($errorC+1))
 		done
 
 		errorC=0
@@ -195,6 +195,8 @@ case $answer in
 				echo -e  "\033[31m docker mailserver 错误太多次 \033[0m"
 				exit;
 			fi
+			errorC=$(($errorC+1))
+			
 			#邮件服务器 需要开放25端口
 			#25,110,143,465,587,993,995,4190
 			#域名解析一个MX类型 @ MX mail.nldzz.cn 优先级10 或者随便写
@@ -207,8 +209,6 @@ case $answer in
 				-h "mail.mdomain.com" \
 				--restart=always \
 				-t analogic/poste.io
-
-			errorC=$(($errorC+1))
 		done
 
 		echo -e "\033[32mposte mailserver	:   http://${ip}:880/ \033[0m"
