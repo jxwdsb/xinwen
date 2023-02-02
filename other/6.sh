@@ -42,11 +42,20 @@ case $answer in
 esac
 
 cd /root
-apt update
-apt upgrade -y
 
-cmd="apt install -y curl wget"
-eval ${cmd} || die "$cmd"
+errorC=0
+while [[ `type -t curl` == "" ]]; do
+	echo -e  "\033[31m 安装 curl \033[0m"
+	if [[ errorC -gt 1 ]]; then
+		echo -e  "\033[31m 安装docker 错误太多次 \033[0m"
+		exit;
+	fi
+	apt update
+	apt upgrade -y
+	cmd="apt install -y curl wget"
+	eval ${cmd} || die "$cmd"
+	errorC=$(($errorC+1))
+done
 
 function init() {
 	cmd="apt -y install redis-server mariadb-server"
@@ -82,74 +91,129 @@ function init() {
 
 case $answer in
 	A | a | 1) echo
-		curl -sSL https://packages.sury.org/nginx/README.txt | bash -x
-		
-		cmd="apt -y install nginx"
-		eval ${cmd} || die "$cmd"
-		
-		cmd="apt -y install lua5.4 liblua5.4-dev luajit libnginx-mod-http-lua"
-		eval ${cmd} || die "$cmd"
-		
-		systemctl enable nginx
 
 		ip=`ip a|grep inet|grep brd|grep -v eth0:|grep -v 127.0.0.1|grep -v inet6|grep -v docker|awk '{print $2}'|awk -F'[/]' '{print $1}'|awk -F'[\n]' '{print $1}'` && echo $ip
 
-		domainName=$ip
-		mkdir -m 777 /var/www/$domainName
-		echo '<html>Hello</html>' > /var/www/${domainName}/index.html
-		echo -e "\t\nserver {\n\tlisten 80;\n\tserver_name  ${domainName};\n\tclient_max_body_size 200m;\n\troot /var/www/${domainName};\n\tlocation  ~ ^/(files|aria2-downloads) {\n\t\tcharset utf-8;\n\t\tautoindex on;\n\t\tautoindex_exact_size off;\n\t\tautoindex_localtime on;\n\t}\n\tlocation  /phpmyadmin {\n\t\tindex index.html index.php;\n\t\tlocation ~ \.php\$ {\n\t\t\troot\t\t   /var/www/${domainName};\n\t\t\tfastcgi_pass   unix:/run/php/php-fpm.sock;\n\t\t\tfastcgi_index  index.php;\n\t\t\tfastcgi_param  SCRIPT_FILENAME  \$document_root\$fastcgi_script_name;\n\t\t\tinclude\t\tfastcgi_params;\n\t\t}\n\t}\n}\n\nserver {\n\tlua_code_cache off;\n\tdefault_type 'text/plain';\n\tlua_need_request_body on;\n\tlisten 81;\n\tserver_name  ${domainName};\n\troot /var/www/other;\n\tlocation / {\n\t\trewrite_by_lua_file /var/www/other/index.lua;\n\t\tindex  index.html index.htm index.php;\n\t}\n\tlocation  /files {\n\t\tcharset utf-8;\n\t\tautoindex on;\n\t\tautoindex_exact_size off;\n\t\tautoindex_localtime on;\n\t}\n}\n" >  /etc/nginx/conf.d/$domainName.new.conf
+		errorC=0
+		while [[ `type -t docker` == "" ]]; do
+			if [[ errorC -gt 1 ]]; then
+				echo -e  "\033[31m 安装 nginx 错误太多次 \033[0m"
+				exit;
+			fi
 
-		ln -s /root/aria2-downloads /var/www/${domainName}/aria2-downloads
+			curl -sSL https://packages.sury.org/nginx/README.txt | bash -x
+			
+			cmd="apt -y install nginx"
+			eval ${cmd} || die "$cmd"
+			
+			cmd="apt -y install lua5.4 liblua5.4-dev luajit libnginx-mod-http-lua"
+			eval ${cmd} || die "$cmd"
+			
+			systemctl enable nginx
 
-		#配置 nginx运行用户 www-data 改成 root  用于支持软链接
-		sed -i "s?user www-data;?user root;#user www-data;?g" /etc/nginx/nginx.conf
+			domainName=$ip
+			mkdir -m 777 /var/www/$domainName
+			echo '<html>Hello</html>' > /var/www/${domainName}/index.html
+			echo -e "\t\nserver {\n\tlisten 80;\n\tserver_name  ${domainName};\n\tclient_max_body_size 200m;\n\troot /var/www/${domainName};\n\tlocation  ~ ^/(files|aria2-downloads) {\n\t\tcharset utf-8;\n\t\tautoindex on;\n\t\tautoindex_exact_size off;\n\t\tautoindex_localtime on;\n\t}\n\tlocation  /phpmyadmin {\n\t\tindex index.html index.php;\n\t\tlocation ~ \.php\$ {\n\t\t\troot\t\t   /var/www/${domainName};\n\t\t\tfastcgi_pass   unix:/run/php/php-fpm.sock;\n\t\t\tfastcgi_index  index.php;\n\t\t\tfastcgi_param  SCRIPT_FILENAME  \$document_root\$fastcgi_script_name;\n\t\t\tinclude\t\tfastcgi_params;\n\t\t}\n\t}\n}\n\nserver {\n\tlua_code_cache off;\n\tdefault_type 'text/plain';\n\tlua_need_request_body on;\n\tlisten 81;\n\tserver_name  ${domainName};\n\troot /var/www/other;\n\tlocation / {\n\t\trewrite_by_lua_file /var/www/other/index.lua;\n\t\tindex  index.html index.htm index.php;\n\t}\n\tlocation  /files {\n\t\tcharset utf-8;\n\t\tautoindex on;\n\t\tautoindex_exact_size off;\n\t\tautoindex_localtime on;\n\t}\n}\n" >  /etc/nginx/conf.d/$domainName.new.conf
 
-		systemctl restart nginx
+			#配置 nginx运行用户 www-data 改成 root  用于支持软链接
+			sed -i "s?user www-data;?user root;#user www-data;?g" /etc/nginx/nginx.conf
 
-		curl -sSL https://get.docker.com/ | sh
+			systemctl restart nginx
 
-		docker run --rm --name hoppscotch -d -p 3000:3000 hoppscotch/hoppscotch:latest
+			errorC=$(($errorC+1))
+		done
 
-		docker run -d \
-			--name aria2-pro \
-			--restart unless-stopped \
-			--log-opt max-size=1m \
-			-e PUID=$UID \
-			-e PGID=$GID \
-			-e UMASK_SET=022 \
-			-e RPC_SECRET=123456 \
-			-e RPC_PORT=6800 \
-			-p 6800:6800 \
-			-e LISTEN_PORT=6888 \
-			-p 6888:6888 \
-			-p 6888:6888/udp \
-			-v $PWD/aria2-config:/config \
-			-v $PWD/aria2-downloads:/downloads \
-			p3terx/aria2-pro
+		errorC=0
+		while [[ `type -t docker` == "" ]]; do
+			if [[ errorC -gt 1 ]]; then
+				echo -e  "\033[31m 安装 docker 错误太多次 \033[0m"
+				exit;
+			fi
+			curl -sSL https://get.docker.com/ | sh
+			errorC=$(($errorC+1))
+		done
 
-		docker run -d \
-			--name ariang \
-			--log-opt max-size=1m \
-			--restart unless-stopped \
-			-p 6880:6880 \
-			p3terx/ariang
+		errorC=0
+		while [[ `docker inspect hoppscotch 2> /dev/null` == "[]" ]]; do
+			if [[ errorC -gt 1 ]]; then
+				echo -e  "\033[31m docker hoppscotch 错误太多次 \033[0m"
+				exit;
+			fi
+			docker run --rm --name hoppscotch -d -p 3000:3000 hoppscotch/hoppscotch:latest
+			errorC=$(($errorC+1))
+		done
 
-		#邮件服务器 需要开放25端口
-		#25,110,143,465,587,993,995,4190
-		#域名解析一个MX类型 @ MX mail.nldzz.cn 优先级10 或者随便写
-		docker run -d \
-			-p 880:80 -p 8443:443 -p 25:25 -p 110:110 -p 143:143 -p 465:465 -p 587:587 -p 993:993 -p 995:995 -p 4190:4190 \
-			-e TZ=Asia/Shanghai \
-			-e "HTTPS=OFF" \
-			-v /root/mail-data:/data \
-			--name "mailserver" \
-			-h "mail.mdomain.com" \
-			--restart=always \
-			-t analogic/poste.io
+		errorC=0
+		while [[ `docker inspect aria2-pro 2> /dev/null` == "[]" ]]; do
+			if [[ errorC -gt 1 ]]; then
+				echo -e  "\033[31m docker aria2-pro 错误太多次 \033[0m"
+				exit;
+			fi
+			docker run -d \
+				--name aria2-pro \
+				--restart unless-stopped \
+				--log-opt max-size=1m \
+				-e PUID=$UID \
+				-e PGID=$GID \
+				-e UMASK_SET=022 \
+				-e RPC_SECRET=123456 \
+				-e RPC_PORT=6800 \
+				-p 6800:6800 \
+				-e LISTEN_PORT=6888 \
+				-p 6888:6888 \
+				-p 6888:6888/udp \
+				-v $PWD/aria2-config:/config \
+				-v $PWD/aria2-downloads:/downloads \
+				p3terx/aria2-pro
 
-		echo -e "\033[32mposte mailserver	:   http://${domainName}:880/ \033[0m"
-		echo -e "\033[32mhoppscotch		  :   http://${domainName}:3000/ \033[0m"
-		echo -e "\033[32mariang			  :   http://${domainName}:6880/ \033[0m"
+			rm /var/www/${ip}/aria2-downloads
+			ln -s /root/aria2-downloads /var/www/${ip}/aria2-downloads
+
+			errorC=$(($errorC+1))
+		done
+
+		errorC=0
+		while [[ `docker inspect ariang 2> /dev/null` == "[]" ]]; do
+			if [[ errorC -gt 1 ]]; then
+				echo -e  "\033[31m docker ariang 错误太多次 \033[0m"
+				exit;
+			fi
+			docker run -d \
+				--name ariang \
+				--log-opt max-size=1m \
+				--restart unless-stopped \
+				-p 6880:6880 \
+				p3terx/ariang
+
+			errorC=$(($errorC+1))
+		done
+
+		errorC=0
+		while [[ `docker inspect mailserver 2> /dev/null` == "[]" ]]; do
+			if [[ errorC -gt 1 ]]; then
+				echo -e  "\033[31m docker mailserver 错误太多次 \033[0m"
+				exit;
+			fi
+			#邮件服务器 需要开放25端口
+			#25,110,143,465,587,993,995,4190
+			#域名解析一个MX类型 @ MX mail.nldzz.cn 优先级10 或者随便写
+			docker run -d \
+				-p 880:80 -p 8443:443 -p 25:25 -p 110:110 -p 143:143 -p 465:465 -p 587:587 -p 993:993 -p 995:995 -p 4190:4190 \
+				-e TZ=Asia/Shanghai \
+				-e "HTTPS=OFF" \
+				-v /root/mail-data:/data \
+				--name "mailserver" \
+				-h "mail.mdomain.com" \
+				--restart=always \
+				-t analogic/poste.io
+
+			errorC=$(($errorC+1))
+		done
+
+		echo -e "\033[32mposte mailserver	:   http://${ip}:880/ \033[0m"
+		echo -e "\033[32mhoppscotch		  :   http://${ip}:3000/ \033[0m"
+		echo -e "\033[32mariang			  :   http://${ip}:6880/ \033[0m"
 		echo -e "\033[32maria download route :   /root/aria2-downloads \033[0m"
 
 	exit;;
