@@ -22,7 +22,7 @@ return [
 	'test' => [
 		'type' => 'mysql',
 		'host' => '127.0.0.1',
-		'database' => 'test',
+		'database' => 'xinwen',
 		'username' => 'root',
 		'password' => 'root',
 		'charset' => 'utf8mb4',
