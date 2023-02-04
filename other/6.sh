@@ -56,76 +56,6 @@ while [[ `type -t curl` == "" ]]; do
 	eval ${cmd} || die "$cmd"
 done
 
-function init() {
-
-	errorC=0
-	while [[ `type -t redis mariadb` == "" ]]; do
-		if [[ errorC -gt 1 ]]; then
-			echo -e "\033[31m 安装 redis mariadb 错误太多次 \033[0m"
-			exit;
-		fi
-		errorC=$(($errorC+1))
-		echo -e "\033[32mwait install redis-server mariadb-server \033[0m";
-		cmd="apt -y install redis-server mariadb-server >> /dev/null 2>&1"
-		eval ${cmd} || die "$cmd"
-
-		mysqladmin -uroot -proot password "root"
-		FIND_FILE="/etc/mysql/mariadb.conf.d/50-server.cnf"
-		FIND_STR="max_connections="
-		if [ `grep -c "$FIND_STR" $FIND_FILE` -ne '0' ];then
-			echo "跳过设置"
-			#exit 0
-		else
-			echo -e "\n\nmax_connections=3000" >> /etc/mysql/mariadb.conf.d/50-server.cnf
-		fi
-		systemctl restart mariadb
-	done
-
-	errorC=0
-	while [[ `type -t php` == "" ]]; do
-		if [[ errorC -gt 1 ]]; then
-			echo -e "\033[31m 安装 php 错误太多次 \033[0m"
-			exit;
-		fi
-		errorC=$(($errorC+1))
-		echo -e "\033[32mwait install php \033[0m";
-		curl -sSL https://packages.sury.org/php/README.txt | bash -x
-		apt-cache showpkg php
-
-		cmd="apt -y install php8.0-cli php8.0-curl php8.0-mysql php8.0-pgsql php8.0-mbstring php8.0-imagick php8.0-gd php8.0-xml php8.0-zip >> /dev/null 2>&1"
-		eval ${cmd} || die "$cmd"
-	done
-
-	errorC=0
-	while [[ `type -t git` == "" ]]; do
-		if [[ errorC -gt 1 ]]; then
-			echo -e "\033[31m 安装 git 错误太多次 \033[0m"
-			exit;
-		fi
-		errorC=$(($errorC+1))
-		echo -e "\033[32mwait install git \033[0m";
-		cmd="apt -y install git >> /dev/null 2>&1"
-		eval ${cmd} || die "$cmd"
-	done
-	
-	cd /root
-	echo -e "\033[32mwait git clone \033[0m";
-	git clone https://github.com/jxwdsb/xinwen.git >> /dev/null 2>&1
-	mv xinwen GitFiles
-
-	errorC=0
-	while [[ `type -t screen` == "" ]]; do
-		if [[ errorC -gt 1 ]]; then
-			echo -e "\033[31m 安装 screen 错误太多次 \033[0m"
-			exit;
-		fi
-		errorC=$(($errorC+1))
-		echo -e "\033[32mwait install screen \033[0m";
-		cmd="apt -y install screen >> /dev/null 2>&1"
-		eval ${cmd} || die "$cmd"
-	done
-}
-
 case $answer in
 	A | a | 1)
 
@@ -258,7 +188,75 @@ case $answer in
 	B | b | 2)
 		#apt -y purge php8.0-cli php8.0-curl php8.0-mysql php8.0-pgsql php8.0-mbstring php8.0-imagick php8.0-gd php8.0-xml php8.0-zip
 
-		init
+		read -p "请输入业务名称:" business_name
+		echo "$business_name"
+
+		errorC=0
+		while [[ `type -t redis mariadb` == "" ]]; do
+			if [[ errorC -gt 1 ]]; then
+				echo -e "\033[31m 安装 redis mariadb 错误太多次 \033[0m"
+				exit;
+			fi
+			errorC=$(($errorC+1))
+			echo -e "\033[32mwait install redis-server mariadb-server \033[0m";
+			cmd="apt -y install redis-server mariadb-server >> /dev/null 2>&1"
+			eval ${cmd} || die "$cmd"
+
+			mysqladmin -uroot -proot password "root"
+			FIND_FILE="/etc/mysql/mariadb.conf.d/50-server.cnf"
+			FIND_STR="max_connections="
+			if [ `grep -c "$FIND_STR" $FIND_FILE` -ne '0' ];then
+				echo "跳过设置"
+				#exit 0
+			else
+				echo -e "\n\nmax_connections=3000" >> /etc/mysql/mariadb.conf.d/50-server.cnf
+			fi
+			systemctl restart mariadb
+		done
+
+		errorC=0
+		while [[ `type -t php` == "" ]]; do
+			if [[ errorC -gt 1 ]]; then
+				echo -e "\033[31m 安装 php 错误太多次 \033[0m"
+				exit;
+			fi
+			errorC=$(($errorC+1))
+			echo -e "\033[32mwait install php \033[0m";
+			curl -sSL https://packages.sury.org/php/README.txt | bash -x
+			apt-cache showpkg php
+
+			cmd="apt -y install php8.0-cli php8.0-curl php8.0-mysql php8.0-pgsql php8.0-mbstring php8.0-imagick php8.0-gd php8.0-xml php8.0-zip >> /dev/null 2>&1"
+			eval ${cmd} || die "$cmd"
+		done
+
+		errorC=0
+		while [[ `type -t git` == "" ]]; do
+			if [[ errorC -gt 1 ]]; then
+				echo -e "\033[31m 安装 git 错误太多次 \033[0m"
+				exit;
+			fi
+			errorC=$(($errorC+1))
+			echo -e "\033[32mwait install git \033[0m";
+			cmd="apt -y install git >> /dev/null 2>&1"
+			eval ${cmd} || die "$cmd"
+		done
+		
+		cd /root
+		echo -e "\033[32mwait git clone \033[0m";
+		git clone https://github.com/jxwdsb/xinwen.git >> /dev/null 2>&1
+		mv xinwen GitFiles
+
+		errorC=0
+		while [[ `type -t screen` == "" ]]; do
+			if [[ errorC -gt 1 ]]; then
+				echo -e "\033[31m 安装 screen 错误太多次 \033[0m"
+				exit;
+			fi
+			errorC=$(($errorC+1))
+			echo -e "\033[32mwait install screen \033[0m";
+			cmd="apt -y install screen >> /dev/null 2>&1"
+			eval ${cmd} || die "$cmd"
+		done
 
 		tag=`php /root/GitFiles/other/init/other/phpmyadmin.php`
 		if [[ $tag -ne "noUp" ]]; then
