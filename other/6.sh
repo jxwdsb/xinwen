@@ -260,7 +260,7 @@ case $answer in
 
 		init
 
-		tag=`php /root/GitFiles/other/webman_init/other/phpmyadmin.php`
+		tag=`php /root/GitFiles/other/init/other/phpmyadmin.php`
 		if [[ $tag -ne "noUp" ]]; then
 			rm -rf /root/GitFiles/other/phpmyadmin
 
@@ -281,7 +281,7 @@ case $answer in
 		screen -r p1 -p 0 -X stuff "php -S 0.0.0.0:8000 -t /root/phpmyadmin"
 		screen -r p1 -p 0 -X stuff $'\n' #执行回车
 
-		cd /root/GitFiles/other/webman_init/other
+		cd /root/GitFiles/other/init/other
 		newV=`php -r "if (file_exists('composer.phar') && hash_file('sha256', 'composer.phar') === file_get_contents('https://getcomposer.org/download/latest-stable/composer.phar.sha256')) { echo 'noUp'; } else { echo 'haveUp';} echo PHP_EOL;"`
 		if [[ $newV -ne "noUp" ]]; then
 			php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
