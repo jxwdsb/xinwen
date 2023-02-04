@@ -369,7 +369,6 @@ case $answer in
 		rm -rf /root/webman/plugin/webman/gateway
 		rm -rf /root/webman/public
 		rm -rf /root/webman/config/plugin/webman/medoo
-
 		
 		cd /root/GitFiles/http_service_files
 		mkdir -m 755 $business_name
