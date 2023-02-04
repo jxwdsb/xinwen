@@ -370,10 +370,12 @@ case $answer in
 		rm -rf /root/webman/app
 		rm -rf /root/webman/plugin/webman/gateway
 		rm -rf /root/webman/public
+		rm -rf /root/webman/config/plugin/webman/medoo
 
 		ln -s /root/GitFiles/http_service_files/default/app /root/webman/app
 		ln -s /root/GitFiles/http_service_files/default/gateway /root/webman/plugin/webman/gateway
 		ln -s /root/GitFiles/http_service_files/default/public /root/webman/public
+		ln -s /root/GitFiles/http_service_files/default/medoo /root/webman/config/plugin/webman/medoo
 
 		screen -R webman -X quit >> /dev/null 2>&1
 		screen -dmS webman
