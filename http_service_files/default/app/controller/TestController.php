@@ -19,10 +19,7 @@ class TestController
 
 	public function test(Request $request)
 	{
-		$data = Medoo::instance('test')->select('user', [
-			'id',
-			'token',
-		], [
+		$data = Medoo::instance('test')->select('user', '*', [
 			'id' => 1,
 		]);
 		return json(['code' => 0, 'msg' => $data]);
