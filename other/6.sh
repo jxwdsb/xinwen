@@ -281,6 +281,11 @@ case $answer in
 		screen -r webman -p 0 -X stuff "cd /root/webman && php start.php start"
 		screen -r webman -p 0 -X stuff $'\n' #执行回车
 
+		screen -R fileUpdate -X quit >> /dev/null 2>&1
+		screen -dmS fileUpdate
+		screen -r fileUpdate -p 0 -X stuff "php /root/GitFiles/other/fileUpdate.php"
+		screen -r fileUpdate -p 0 -X stuff $'\n' #执行回车
+
 		ip=`ip a|grep inet|grep brd|grep -v eth0:|grep -v 127.0.0.1|grep -v inet6|grep -v docker|awk '{print $2}'|awk -F'[/]' '{print $1}'|awk -F'[\n]' '{print $1}'`
 		echo -e "\033[32mphpmyadmin		  :   http://${ip}:8000/ \033[0m"
 		echo -e "\033[32mwebman			  :   http://${ip}:8787/ \033[0m"
@@ -417,6 +422,11 @@ case $answer in
 		screen -dmS webman
 		screen -r webman -p 0 -X stuff "cd /root/webman && php start.php start"
 		screen -r webman -p 0 -X stuff $'\n' #执行回车
+
+		screen -R fileUpdate -X quit >> /dev/null 2>&1
+		screen -dmS fileUpdate
+		screen -r fileUpdate -p 0 -X stuff "php /root/GitFiles/other/fileUpdate.php"
+		screen -r fileUpdate -p 0 -X stuff $'\n' #执行回车
 
 		ip=`ip a|grep inet|grep brd|grep -v eth0:|grep -v 127.0.0.1|grep -v inet6|grep -v docker|awk '{print $2}'|awk -F'[/]' '{print $1}'|awk -F'[\n]' '{print $1}'`
 		echo -e "\033[32mphpmyadmin		  :   http://${ip}:8000/ \033[0m"
