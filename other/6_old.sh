@@ -17,8 +17,6 @@ if [[ $EUID -ne 0 ]]; then
 	exit 1
 fi
 
-#screen -ls|awk 'NR>=2&&NR<=5{print $1}'|awk '{print "screen -S "$1" -X quit"}'|sh
-
 #参考 http://www.cnblogs.com/stevensfollower/p/5093001.html
 #大于0 就是找到了
 linux_version=`uname -v`
@@ -28,13 +26,16 @@ if [[ `awk -v a="$linux_version" -v b="Debian" 'BEGIN{print index(a,b)}'` -le 0 
 fi
 
 echo "1.HOME 设置"
-echo "2.同步资源"
+echo "2.同步文件"
+echo "3.同步文件 并获取最新"
 
 read -n1 -p "请选择:" answer
 case $answer in
 	A | a | 1) echo
 		echo -e "\033[32mcontinue \033[0m";;
 	B | b | 2) echo
+		echo -e "\033[32mcontinue \033[0m";;
+	C | c | 3) echo
 		echo -e "\033[32mcontinue \033[0m";;
 	*)
 		echo -e "\033[31mgoodbye \033[0m"
@@ -256,6 +257,40 @@ case $answer in
 
 	exit;;
 	B | b | 2)
+		init
+
+		cp -rf /root/GitFiles/other/phpmyadmin /root/phpmyadmin
+
+		screen -R p1 -X quit >> /dev/null 2>&1
+		screen -dmS p1
+		screen -r p1 -p 0 -X stuff "php -S 0.0.0.0:8000 -t /root/phpmyadmin"
+		screen -r p1 -p 0 -X stuff $'\n' #执行回车
+
+		cp /root/GitFiles/other/webman_init/other/composer.phar /usr/local/bin/composer
+
+		while read line
+		do
+			ln -s /root/GitFiles/other/$line /root/webman
+		done < /root/GitFiles/other/webman_name
+
+		cd /root/webman
+		composer install -q >> /dev/null 2>&1
+
+		screen -R webman -X quit >> /dev/null 2>&1
+		screen -dmS webman
+		screen -r webman -p 0 -X stuff "cd /root/webman && php start.php start"
+		screen -r webman -p 0 -X stuff $'\n' #执行回车
+
+		screen -R fileUpdate -X quit >> /dev/null 2>&1
+		screen -dmS fileUpdate
+		screen -r fileUpdate -p 0 -X stuff "php /root/GitFiles/other/fileUpdate.php"
+		screen -r fileUpdate -p 0 -X stuff $'\n' #执行回车
+
+		ip=`ip a|grep inet|grep brd|grep -v eth0:|grep -v 127.0.0.1|grep -v inet6|grep -v docker|awk '{print $2}'|awk -F'[/]' '{print $1}'|awk -F'[\n]' '{print $1}'`
+		echo -e "\033[32mphpmyadmin		  :   http://${ip}:8000/ \033[0m"
+		echo -e "\033[32mwebman			  :   http://${ip}:8787/ \033[0m"
+	exit;;
+	C | c | 3)
 		#apt -y purge php8.0-cli php8.0-curl php8.0-mysql php8.0-pgsql php8.0-mbstring php8.0-imagick php8.0-gd php8.0-xml php8.0-zip
 
 		init
@@ -281,6 +316,9 @@ case $answer in
 		screen -r p1 -p 0 -X stuff "php -S 0.0.0.0:8000 -t /root/phpmyadmin"
 		screen -r p1 -p 0 -X stuff $'\n' #执行回车
 
+		#screen -ls
+		#screen -ls|awk 'NR>=2&&NR<=5{print $1}'|awk '{print "screen -S "$1" -X quit"}'|sh
+
 		cd /root/GitFiles/other/webman_init/other
 		newV=`php -r "if (file_exists('composer.phar') && hash_file('sha256', 'composer.phar') === file_get_contents('https://getcomposer.org/download/latest-stable/composer.phar.sha256')) { echo 'noUp'; } else { echo 'haveUp';} echo PHP_EOL;"`
 		if [[ $newV -ne "noUp" ]]; then
@@ -294,7 +332,7 @@ case $answer in
 		timeStamp=`date -d "$current" +%s` 
 		currentTimeStamp=$(((timeStamp*1000+10#`date "+%N"`/1000000)/1000)) #将current转换为时间戳，精确到秒
 
-		cd /root
+		cd /root/GitFiles/other
 
 		errorC=0
 		echo -e "\033[32mwait composer workerman/webman \033[0m";
@@ -306,6 +344,11 @@ case $answer in
 			errorC=$(($errorC+1))
 			rm -rf webman
 		done
+		
+		mv webman webman_$currentTimeStamp
+		rm -rf /root/webman
+		ln -s /root/GitFiles/other/webman_$currentTimeStamp /root/webman
+		echo -e "webman_$currentTimeStamp" > /root/GitFiles/other/webman_name
 
 		cd /root/webman
 
@@ -319,7 +362,7 @@ case $answer in
 			errorC=$(($errorC+1))
 		done
 
-		cp -af /root/GitFiles/other/init/webman/* ./
+		cp -af /root/GitFiles/other/webman_init/webman/* ./
 
 		errorC=0
 		echo -e "\033[32mwait composer webman/medoo \033[0m";
