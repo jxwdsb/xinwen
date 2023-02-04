@@ -379,6 +379,9 @@ case $answer in
 		ln -s /root/GitFiles/http_service_files/$business_name/public /root/webman/public
 		ln -s /root/GitFiles/http_service_files/$business_name/medoo /root/webman/config/plugin/webman/medoo
 
+		file_route="/root/GitFiles/http_service_files/default/app/controller"
+		mv $file_route/TestController.php $file_route/$business_nameController.php
+
 		screen -R webman -X quit >> /dev/null 2>&1
 		screen -dmS webman
 		screen -r webman -p 0 -X stuff "cd /root/webman && php start.php start"
