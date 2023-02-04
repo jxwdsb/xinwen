@@ -383,6 +383,7 @@ case $answer in
 		mv ${file_route}/TestController.php $file_route/${business_name}Controller.php
 		#这里需要第一个字符大写
 		sed -i "s#test#${business_name}#" /root/GitFiles/http_service_files/${business_name}/medoo/database.php
+		sed -i "s#TestController#${business_name}Controller#" /root/GitFiles/http_service_files/default/app/controller/${business_name}Controller.php
 
 		screen -R webman -X quit >> /dev/null 2>&1
 		screen -dmS webman
