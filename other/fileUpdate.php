@@ -34,7 +34,7 @@ function fileShow($dir){//遍历目录下的所有文件和文件夹
 						$fileInfo[$f]['time'] = filemtime($f);
 						if (strpos($f, '/root/.') !== false) {
 							//是隐藏文件 跳过
-						if (strpos($f, '/root/GitFiles/.') !== false) {
+						} else if (strpos($f, '/root/GitFiles/.') !== false) {
 							//是隐藏文件 跳过
 						} else if (strpos($f, '/runtime/') !== false) {
 							//是日志文件 跳过
