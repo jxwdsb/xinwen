@@ -189,7 +189,7 @@ case $answer in
 		#apt -y purge php8.0-cli php8.0-curl php8.0-mysql php8.0-pgsql php8.0-mbstring php8.0-imagick php8.0-gd php8.0-xml php8.0-zip
 
 		read -p "请输入业务名称:" business_name
-		echo "$business_name"
+		echo -e "\033[32m业务名称 $business_name \033[0m"
 
 		errorC=0
 		while [[ `type -t redis mariadb` == "" ]]; do
