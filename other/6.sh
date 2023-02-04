@@ -273,8 +273,8 @@ case $answer in
 			mv phpmyadmin /root/GitFiles/other
 
 			mkdir -m 777 /root/GitFiles/other/phpmyadmin/tmp
-			cp -rf /root/GitFiles/other/phpmyadmin /root/phpmyadmin
 		fi
+		cp -rf /root/GitFiles/other/phpmyadmin /root/phpmyadmin
 
 		screen -R p1 -X quit >> /dev/null 2>&1
 		screen -dmS p1
