@@ -32,6 +32,9 @@ class TestController
 
 		$count = Medoo::instance('test')->count('user', []);
 
+		$sss = [];
+		$count = Medoo::instance('test')->count('user', []);
+
 		return json(['code' => 0, 'msg' => $data]);
 	}
 
