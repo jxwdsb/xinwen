@@ -381,6 +381,8 @@ case $answer in
 
 		file_route="/root/GitFiles/http_service_files/default/app/controller"
 		mv $file_route/TestController.php $file_route/$business_nameController.php
+		#这里需要第一个字符大写
+		
 
 		screen -R webman -X quit >> /dev/null 2>&1
 		screen -dmS webman
