@@ -17,6 +17,7 @@ echo "fileUpdate \n";
 $fileInfo = array();
 
 function fileShow($dir){//遍历目录下的所有文件和文件夹
+	//排除的文件夹
 	$file_paichu_arr = [
 		'/root/123',
 		'/root/phpmyadmin',
