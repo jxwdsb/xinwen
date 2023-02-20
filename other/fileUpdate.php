@@ -17,7 +17,11 @@ echo "fileUpdate \n";
 $fileInfo = array();
 
 function fileShow($dir){//遍历目录下的所有文件和文件夹
-	if ($dir == "/root/123") {
+	$file_paichu_arr = [
+		'/root/123',
+		'/root/phpmyadmin',
+	];
+	if (in_array($dir, $file_paichu_arr)) {
 		return 0;
 	}
 	global $fileInfo;
@@ -67,7 +71,7 @@ function fileShow($dir){//遍历目录下的所有文件和文件夹
 						GitUpload();
 					}
 				}
-				echo $f . "\n";
+				//echo $f . "\n";
 				fileShow($f);
 			}
 		}
