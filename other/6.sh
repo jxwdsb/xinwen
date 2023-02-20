@@ -372,7 +372,7 @@ case $answer in
 		
 		cd /root/GitFiles/http_service_files
 		mkdir -m 755 $business_name
-		cp ./default/* $business_name
+		cp -rf ./default/* $business_name
 
 		ln -s /root/GitFiles/http_service_files/$business_name/app /root/webman/app
 		ln -s /root/GitFiles/http_service_files/$business_name/gateway /root/webman/plugin/webman/gateway

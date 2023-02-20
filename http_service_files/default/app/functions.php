@@ -1,4 +1,3 @@
 <?php
-/**
- * Here is your custom functions.
- */
+    
+require_once 'func_1.php';

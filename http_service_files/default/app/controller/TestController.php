@@ -19,6 +19,7 @@ class TestController
 
 	public function test(Request $request)
 	{
+		sql_count('ban');
 		$data = Medoo::instance('test')->select('user', [
 			'id',
 			'token',
@@ -34,11 +35,11 @@ class TestController
 
 		$sss = [];
 		$count = Medoo::instance('test')->count('user', $sss);
-		
-		$data = Medoo::instance('test')->select('user', [
+
+		$data = sql_select('user', [
 			'id',
 			'token',
-		], $sss);
+		], $sss1);
 
 		return json(['code' => 0, 'msg' => $data]);
 	}

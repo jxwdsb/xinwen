@@ -19,7 +19,7 @@ class Handler extends \support\exception\Handler
 		$code = $exception->getCode();
 		// ajax请求返回json数据
 		if ($request->expectsJson()) {
-			return json(['reCode' => $code ? $code : 500, 'message' => $exception->getMessage(), 'traces' => htmlspecialchars($exception) ]);
+			return json(['code' => $code ? $code : 500, 'message' => $exception->getMessage(), 'traces' => htmlspecialchars($exception) ]);
 		}
 		// 页面请求返回500.html模版
 		return view('error', ['exception' => $exception]);
