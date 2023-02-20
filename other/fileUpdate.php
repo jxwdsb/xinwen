@@ -7,7 +7,7 @@ cd /root/GitFiles/other && php fileUpdate.php
 
 function GitUpload()
 {
-	echo date(time()) . "\n ";
+	echo date("Y.m.d H:i:s") . "\n ";
 	system('cd /root/GitFiles && git add -A && git commit -m "update robot '.time().'" && git push -u xinwen +main');
 }
 
