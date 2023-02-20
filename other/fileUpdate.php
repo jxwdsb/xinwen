@@ -17,6 +17,9 @@ echo "fileUpdate \n";
 $fileInfo = array();
 
 function fileShow($dir){//遍历目录下的所有文件和文件夹
+	if ($dir == "/root/123") {
+		return 0;
+	}
 	global $fileInfo;
 	$handle = opendir($dir);
 	while($file = readdir($handle)){
