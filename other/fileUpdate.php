@@ -64,6 +64,7 @@ function fileShow($dir){//遍历目录下的所有文件和文件夹
 						GitUpload();
 					}
 				}
+				echo $f . "\n";
 				fileShow($f);
 			}
 		}
