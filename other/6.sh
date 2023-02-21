@@ -370,12 +370,12 @@ case $answer in
 		rm -rf /root/webman/public
 		rm -rf /root/webman/config/plugin/webman/medoo
 
-		if [[ business_name == "default" ]]; then
+		if [[ business_name == "test" ]]; then
 			#
 		else
 			cd /root/GitFiles/http_service_files
 			mkdir -m 755 $business_name
-			cp -rf ./default/* $business_name
+			cp -rf ./test/* $business_name
 
 			file_route="/root/GitFiles/http_service_files/${business_name}/app/controller"
 			#这里需要第一个字符大写
@@ -385,8 +385,8 @@ case $answer in
 			sed -i "s#test#${business_name}#" /root/GitFiles/http_service_files/${business_name}/app/controller/${business_name^}Controller.php
 		fi
 
-		mysql -se "create DATABASE xinwen;use xinwen;source /root/GitFiles/http_service_files/default/xinwen.sql;"
-		mysql -se "create DATABASE ${business_name};use ${business_name};source /root/GitFiles/http_service_files/default/test.sql;"
+		mysql -se "create DATABASE xinwen;use xinwen;source /root/GitFiles/http_service_files/test/xinwen.sql;"
+		mysql -se "create DATABASE ${business_name};use ${business_name};source /root/GitFiles/http_service_files/test/test.sql;"
 
 		ln -s /root/GitFiles/http_service_files/$business_name/app /root/webman/app
 		ln -s /root/GitFiles/http_service_files/$business_name/gateway /root/webman/plugin/webman/gateway
