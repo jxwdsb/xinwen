@@ -259,7 +259,8 @@ case $answer in
 		done
 
 		tag=`php /root/GitFiles/other/init/other/phpmyadmin.php`
-		if [[ $tag -ne "noUp" ]]; then
+		if [[ $tag == "noUp" ]]; then
+			echo "phpmyadmin no update";
 			rm -rf /root/GitFiles/other/phpmyadmin
 
 			pname=phpMyAdmin-$tag-all-languages && echo $pname
@@ -281,7 +282,8 @@ case $answer in
 
 		cd /root/GitFiles/other/init/other
 		newV=`php -r "if (file_exists('composer.phar') && hash_file('sha256', 'composer.phar') === file_get_contents('https://getcomposer.org/download/latest-stable/composer.phar.sha256')) { echo 'noUp'; } else { echo 'haveUp';} echo PHP_EOL;"`
-		if [[ $newV -ne "noUp" ]]; then
+		if [[ $newV == "noUp" ]]; then
+			echo "composer no update";
 			php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 			php composer-setup.php
 			php -r "unlink('composer-setup.php');"
@@ -385,8 +387,13 @@ case $answer in
 			sed -i "s#test#${business_name}#" /root/GitFiles/http_service_files/${business_name}/app/controller/${business_name^}Controller.php
 		fi
 
-		mysql -se "create DATABASE xinwen;use xinwen;source /root/GitFiles/http_service_files/test/xinwen.sql;"
-		mysql -se "create DATABASE ${business_name};use ${business_name};source /root/GitFiles/http_service_files/test/test.sql;"
+		if [ -f "/root/GitFiles/http_service_files/xinwen.sql" ];then
+			mysql -se "create DATABASE xinwen;use xinwen;source /root/GitFiles/http_service_files/xinwen.sql;"
+		fi
+
+		if [ -f "/root/GitFiles/http_service_files/test.sql" ];then
+			mysql -se "create DATABASE ${business_name};use ${business_name};source /root/GitFiles/http_service_files/test.sql;"
+		fi
 
 		ln -s /root/GitFiles/http_service_files/$business_name/app /root/webman/app
 		ln -s /root/GitFiles/http_service_files/$business_name/gateway /root/webman/plugin/webman/gateway
