@@ -370,7 +370,7 @@ case $answer in
 		rm -rf /root/webman/public
 		rm -rf /root/webman/config/plugin/webman/medoo
 
-		if [[ business_name == "test" ]]; then
+		if [[ $business_name == "test" ]]; then
 			#
 		else
 			cd /root/GitFiles/http_service_files
