@@ -4,9 +4,17 @@ echo "1.HOME 设置"
 echo "2.同步资源"
 
 read -n1 -p "请选择:" answer
-
-read -p "请输入业务名称:" business_name
-echo -e "\033[32m业务名称 $business_name \033[0m"
+case $answer in
+	A | a | 1) echo
+		echo -e "\033[32mcontinue \033[0m";;
+	B | b | 2) echo
+		read -p "请输入业务名称:" business_name
+		echo -e "\033[32m业务名称 $business_name \033[0m"
+		echo -e "\033[32mcontinue \033[0m";;
+	*)
+		echo -e "\033[31mgoodbye \033[0m"
+		exit;;
+esac
 
 die() {
 	local cmd=$1
@@ -34,16 +42,6 @@ if [[ `awk -v a="$linux_version" -v b="Debian" 'BEGIN{print index(a,b)}'` -le 0 
 	echo -e "\033[31m 不支持的系统 目前仅支持debian 系统 \033[0m"
 	exit;
 fi
-
-case $answer in
-	A | a | 1) echo
-		echo -e "\033[32mcontinue \033[0m";;
-	B | b | 2) echo
-		echo -e "\033[32mcontinue \033[0m";;
-	*)
-		echo -e "\033[31mgoodbye \033[0m"
-		exit;;
-esac
 
 cd /root
 apt update >> /dev/null 2>&1
