@@ -1,5 +1,13 @@
 #!/bin/bash
 
+echo "1.HOME 设置"
+echo "2.同步资源"
+
+read -n1 -p "请选择:" answer
+
+read -p "请输入业务名称:" business_name
+echo -e "\033[32m业务名称 $business_name \033[0m"
+
 die() {
 	local cmd=$1
 	local errorC=$2
@@ -27,10 +35,6 @@ if [[ `awk -v a="$linux_version" -v b="Debian" 'BEGIN{print index(a,b)}'` -le 0 
 	exit;
 fi
 
-echo "1.HOME 设置"
-echo "2.同步资源"
-
-read -n1 -p "请选择:" answer
 case $answer in
 	A | a | 1) echo
 		echo -e "\033[32mcontinue \033[0m";;
@@ -187,9 +191,6 @@ case $answer in
 	exit;;
 	B | b | 2)
 		#apt -y purge php8.0-cli php8.0-curl php8.0-mysql php8.0-pgsql php8.0-mbstring php8.0-imagick php8.0-gd php8.0-xml php8.0-zip
-
-		read -p "请输入业务名称:" business_name
-		echo -e "\033[32m业务名称 $business_name \033[0m"
 
 		errorC=0
 		while [[ `type -t redis mariadb` == "" ]]; do
