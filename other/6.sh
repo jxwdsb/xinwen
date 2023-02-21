@@ -369,24 +369,29 @@ case $answer in
 		rm -rf /root/webman/plugin/webman/gateway
 		rm -rf /root/webman/public
 		rm -rf /root/webman/config/plugin/webman/medoo
-		
-		cd /root/GitFiles/http_service_files
-		mkdir -m 755 $business_name
-		cp -rf ./default/* $business_name
+
+		if [[ business_name == "default" ]]; then
+			#
+		else
+			cd /root/GitFiles/http_service_files
+			mkdir -m 755 $business_name
+			cp -rf ./default/* $business_name
+
+			file_route="/root/GitFiles/http_service_files/${business_name}/app/controller"
+			#这里需要第一个字符大写
+			mv ${file_route}/TestController.php $file_route/${business_name^}Controller.php
+			sed -i "s#test#${business_name}#" /root/GitFiles/http_service_files/${business_name}/medoo/database.php
+			sed -i "s#test#${business_name}#" /root/GitFiles/http_service_files/${business_name}/app/func_1.php
+			sed -i "s#test#${business_name}#" /root/GitFiles/http_service_files/${business_name}/app/controller/${business_name^}Controller.php
+		fi
+
+		mysql -se "create DATABASE xinwen;use xinwen;source /root/GitFiles/http_service_files/default/xinwen.sql;"
+		mysql -se "create DATABASE ${business_name};use ${business_name};source /root/GitFiles/http_service_files/default/test.sql;"
 
 		ln -s /root/GitFiles/http_service_files/$business_name/app /root/webman/app
 		ln -s /root/GitFiles/http_service_files/$business_name/gateway /root/webman/plugin/webman/gateway
 		ln -s /root/GitFiles/http_service_files/$business_name/public /root/webman/public
 		ln -s /root/GitFiles/http_service_files/$business_name/medoo /root/webman/config/plugin/webman/medoo
-
-		file_route="/root/GitFiles/http_service_files/${business_name}/app/controller"
-		#这里需要第一个字符大写
-		mv ${file_route}/TestController.php $file_route/${business_name^}Controller.php
-		sed -i "s#test#${business_name}#" /root/GitFiles/http_service_files/${business_name}/medoo/database.php
-		sed -i "s#test#${business_name}#" /root/GitFiles/http_service_files/${business_name}/app/func_1.php
-		sed -i "s#test#${business_name}#" /root/GitFiles/http_service_files/${business_name}/app/controller/${business_name^}Controller.php
-		mysql -se "create DATABASE xinwen;use xinwen;source /root/GitFiles/http_service_files/default/xinwen.sql;"
-		mysql -se "create DATABASE ${business_name};use ${business_name};source /root/GitFiles/http_service_files/default/test.sql;"
 
 		screen -R webman -X quit >> /dev/null 2>&1
 		screen -dmS webman
