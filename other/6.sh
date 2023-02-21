@@ -379,7 +379,7 @@ case $answer in
 		ln -s /root/GitFiles/http_service_files/$business_name/public /root/webman/public
 		ln -s /root/GitFiles/http_service_files/$business_name/medoo /root/webman/config/plugin/webman/medoo
 
-		file_route="/root/GitFiles/http_service_files/default/app/controller"
+		file_route="/root/GitFiles/http_service_files/${business_name}/app/controller"
 		#这里需要第一个字符大写
 		mv ${file_route}/TestController.php $file_route/${business_name^}Controller.php
 		sed -i "s#test#${business_name}#" /root/GitFiles/http_service_files/${business_name}/medoo/database.php
