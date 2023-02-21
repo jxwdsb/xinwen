@@ -40,6 +40,7 @@ git push -u xinwen +main
 mysql mariadb
 #https://www.runoob.com/w3cnote/linux-mysql-import-export-data.html
 #导入 mysql -se "use byhd.jybeing.com;source /root/byhd_nldzz_cn.sql;"
+mysql -se "create DATABASE asdasdasd;"
 
 
 ============
