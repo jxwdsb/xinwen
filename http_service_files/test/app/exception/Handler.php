@@ -32,8 +32,10 @@ class Handler extends \support\exception\Handler
 
 		$count = Medoo::instance('test')->count('bug_traces', [
 			'traces' => $traces,
+			'status' => null,
 		]);
 
+		//这个错误 是否存在
 		if ($count == 0) {
 			Medoo::instance('test')->insert('bug_traces', [
 				're_code' => $re_code,
