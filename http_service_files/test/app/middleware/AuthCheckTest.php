@@ -18,9 +18,11 @@ class AuthCheckTest implements MiddlewareInterface
 
 					$a = $request->post('pn');
 					if (is_null($request->post('pn')) === true ) {
+							return json(['reCode'=>2, 'message'=>'nulla']);
 						echo "nulla";
 					} else {
 						echo "存在";
+							return json(['reCode'=>2, 'message'=>'存在']);
 					}
 					
 					var_dump($a);
