@@ -20,7 +20,7 @@ class AuthCheckTest implements MiddlewareInterface
 					if (is_null($request->post('pn') === true )) {
 						echo "nulla";
 					} else {
-						// code...
+						echo "存在";
 					}
 					
 					var_dump($a);
