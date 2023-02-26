@@ -17,6 +17,21 @@ class TestController
 		return json(['code' => 0, 'msg' => 'ok']);
 	}
 
+	public function user_register(Request $request)
+	{
+		return json(['code' => 0, 'msg' => 'ok']);
+	}
+
+	public function user_del(Request $request)
+	{
+		return json(['code' => 0, 'msg' => 'ok']);
+	}
+
+	public function user_password_recovery(Request $request)
+	{
+		return json(['code' => 0, 'msg' => 'ok']);
+	}
+
 	public function test(Request $request)
 	{
 		sql_count('ban');
