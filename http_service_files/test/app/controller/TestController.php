@@ -17,6 +17,21 @@ class TestController
 		return json(['code' => 0, 'msg' => 'ok']);
 	}
 
+	public function data_set_server(Request $request)
+	{
+		//这里是管理员操作的数据
+		switch (variable) {
+			case 'value':
+				// code...
+				break;
+			
+			default:
+				return json(['code' => 9]);
+				break;
+		}
+		return json(['code' => 0, 'msg' => 'ok']);
+	}
+
 	public function user_register(Request $request)
 	{
 		return json(['code' => 0, 'msg' => 'ok']);
