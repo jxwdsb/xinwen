@@ -32,18 +32,21 @@ class Handler extends \support\exception\Handler
 			'status' => null,
 		]);
 
+		$time = time();
+
 		//这个错误 是否存在
 		if ($count == 0) {
 			Medoo::instance('test')->insert('bug_traces', [
 				're_code' => $re_code,
 				'msg' => $msg,
 				'traces' => $traces,
-				'time' => time(),
+				'time' => $time,
 			]);
 		}
 
 		return json([
 			'code' => 500, 
+			'time' => $time, 
 		]);
 		
 		/*
