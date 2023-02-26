@@ -12,15 +12,13 @@ class AuthCheckTest implements MiddlewareInterface
 { 
 	public function process(Request $request, callable $handler) : Response
 	{
-		var_dump($request->controller );
-		if ($request->controller == 'app\controller\demo') {
+		if ($request->controller == 'app\controller\TestController') {
 			switch ($request->action) {
-				case 'upload':
-					break;
-				case 'getRoute':
-					break;
-				
 				case 'login':
+
+					$a = $request->post('pn');
+					var_dump($a);
+					
 					//判断账号密码登录
 					$arr = ['pn', 'passwd'];
 					$c = count($arr);
@@ -59,7 +57,7 @@ class AuthCheckTest implements MiddlewareInterface
 					break;
 			}
 		} else {
-			//判断userID token
+			//
 		}
 		
 		return $handler($request);
