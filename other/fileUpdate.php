@@ -2,7 +2,7 @@
 	
 /********
 监控文件更新
-screen -r fileUpdate
+screen -r fileUpdate qwe
 cd /root/GitFiles/other && php fileUpdate.php
 */
 
