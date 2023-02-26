@@ -29,7 +29,6 @@ class Handler extends \support\exception\Handler
 
 		$count = Medoo::instance('test')->count('bug_traces', [
 			'traces' => $traces,
-			'status' => null,
 		]);
 
 		$time = time();
