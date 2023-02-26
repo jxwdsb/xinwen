@@ -16,6 +16,12 @@ class AuthCheckTest implements MiddlewareInterface
 			switch ($request->action) {
 				case 'login':
 
+					$a = $request->post('pn');
+					if (is_null($a)) {
+						echo "nulla";
+					} else {
+						// code...
+					}
 					
 					var_dump($a);
 					
