@@ -2,6 +2,7 @@
 	
 /********
 监控文件更新
+screen -r fileUpdate
 cd /root/GitFiles/other && php fileUpdate.php
 */
 

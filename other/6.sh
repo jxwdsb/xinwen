@@ -16,6 +16,9 @@ case $answer in
 		exit;;
 esac
 
+apt -y install --reinstall ca-certificates
+#curl: (77) error setting certificate verify locations:  CAfile: /etc/ssl/certs/ca-certificates.crt CApath: /etc/ssl/certs
+
 die() {
 	local cmd=$1
 	local errorC=$2
