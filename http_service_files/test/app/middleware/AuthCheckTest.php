@@ -16,7 +16,7 @@ class AuthCheckTest implements MiddlewareInterface
 			switch ($request->action) {
 				case 'login':
 
-					$a = $request->post('pn');
+					
 					var_dump($a);
 					
 					//判断账号密码登录
