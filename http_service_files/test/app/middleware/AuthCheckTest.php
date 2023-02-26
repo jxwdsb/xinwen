@@ -12,7 +12,7 @@ class AuthCheckTest implements MiddlewareInterface
 { 
 	public function process(Request $request, callable $handler) : Response
 	{
-		var_dump($request->controlle );
+		var_dump($request->controller );
 		if ($request->controller == 'app\controller\demo') {
 			switch ($request->action) {
 				case 'upload':
