@@ -45,7 +45,6 @@ class Handler extends \support\exception\Handler
 
 		return json([
 			'code' => 500, 
-			'msg' => $msg,
 		]);
 		
 		/*
