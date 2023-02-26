@@ -18,7 +18,6 @@ class Handler extends \support\exception\Handler
 	public function render(Request $request, Throwable $exception) : Response
 	{
 		$re_code = $exception->getCode();
-
 		$msg = $exception->getMessage();
 		
 		if ($msg == 'true') {
